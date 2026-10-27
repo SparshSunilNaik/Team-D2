@@ -1,4 +1,4 @@
-# Building Permit Approval and Inspection Management System
+# Civic Issue Reporting and Resolution Management System
 
 **Stage S1 — Functional Requirements Engineering (Gate 1 Requirements Baseline)**
 Detailed engine decomposition and requirements workbook
@@ -9,19 +9,19 @@ Detailed engine decomposition and requirements workbook
 
 | Item | Details |
 |---|---|
-| Team No. | 02 |
-| Project Title | Building Permit Approval and Inspection Management System |
-| Guide | Sunil Gurlahosur |
-| Date Prepared | 27/09/2026 |
+| Team No. | 4 |
+| Project Title | Civic Issue Reporting and Resolution Management System |
+| Guide | Prof. Sunil V G |
+| Date Prepared | 28/09/26 |
 
 | Name | SRN |
 |---|---|
-| Sanmathi Hegde | 01FE24BCS269 |
-| Amruta Kutri | 01FE24BCS275 |
-| Annapurna Boratti | 01FE24BCS283 |
-| Akhil Teja | 01FE24BCS284 |
+| Akash Hugar | 01FE24BCS271 |
+| Sandeepgouda Goudar | 01FE24BCS264 |
+| Lahari Banakar | 01FE24BCS274 |
+| Pavitra S A | 01FE24BCS270 |
 
-**What S1 covers:** starting from the approved S0 problem, stakeholders, pain points and scope, this stage breaks the system into independently ownable technical **engines**, then specifies the system through requirements (FR/NFR), use cases, acceptance criteria, priorities, a traceability matrix and detailed engine sheets.
+**What S1 covers:** starting from the approved S0 problem, stakeholders, pain points and scope, this stage breaks the system into independently ownable technical **engines**, then specifies it through requirements (FR/NFR), use cases, acceptance criteria, priorities, a traceability matrix and detailed engine sheets.
 
 ---
 
@@ -29,16 +29,16 @@ Detailed engine decomposition and requirements workbook
 
 ### 1.1 How the engines were derived
 
-Each engine is a group of related responsibilities that share the same technical mechanism, state or control, and that can be explained, owned, implemented and tested on its own. Engines are named after a technical responsibility (not a screen or layer such as "Frontend" or "Database"). For each engine: a problem function from S0 is identified, related functions are grouped, converted into one precise responsibility, bounded (what it owns / does not own), defined (I/O, state, mechanism, failures, KPI), assigned one primary owner, and finally linked to requirement IDs.
+Each engine groups related responsibilities that share the same technical mechanism, state or control, and that can be explained, owned, implemented and tested on its own. Engines are named after a technical responsibility, not a screen or layer (no "Frontend", "Database", "Login Page"). For each engine: a problem function from S0 is identified, related functions are grouped, turned into one precise responsibility, bounded (owns / does not own), defined (I/O, state, mechanism, failures, KPI), assigned one primary owner, and finally linked to requirement IDs.
 
 ### 1.2 Engine Summary
 
-| Engine ID | Engine Name | Major Courses | Technical Problem Owned | Primary Responsibility | Primary Owner |
+| Engine | Name | Major Courses | Technical Problem Owned | Primary Responsibility | Owner |
 |---|---|---|---|---|---|
-| E1 | Access Control & Security Engine | Web Technology, CN, OS | Unauthorized actions and insecure sessions | Token-based login over HTTPS, role-permission checks on every request, session expiry and account lockout | Akhil Teja |
-| E2 | Permit Workflow & Decision Engine | SE, DSA | Invalid stage jumps and inconsistent decisions | State machine for valid transitions, review checks before approval, correction loop and workflow notifications | Annapurna Boratti |
-| E3 | Transaction, Data & Audit Integrity Engine | DBMS, OS | Partial records, conflicting updates and untraceable actions | Atomic transactions, foreign-key checks, safe concurrent updates, recovery, document versioning and append-only audit trail | Amruta Kutri |
-| E4 | Assignment, Routing & Workload Engine | DSA, OS, DBMS | Wrong or delayed assignment and uneven workload | Rule-based routing by type and zone, workload-based assignment, officer override, overdue escalation and workload analytics on the Chicago data | Sanmathi Hegde |
+| E1 | Complaint Processing & Assignment Engine | Web Technology + DSA + OS + DBMS | Invalid complaint data, incorrect classification, improper priority order, unsuitable officer assignment | Receive, validate and register complaints; classify and map departments; calculate priority; maintain priority order; assign eligible officers | Lahari Banakar |
+| E2 | SLA, Resolution & Verification Engine | OS + Web Technology + DBMS | Delayed complaints, SLA violations, uncontrolled resolution/closure | Monitor SLA; detect and escalate breaches; manage status and resolution; verify, close and re-open complaints | Pavitra S A |
+| E3 | Hotspot Analysis & Route Optimization Engine | DSA + DBMS | Difficulty identifying complaint concentrations and generating efficient visit orders | Analyze complaint locations, identify hotspots and generate optimized visit orders for multiple assigned complaints | Akash Hugar |
+| E4 | Identity, Role & Access Control Engine | Web Technology + DBMS + Security | Unauthorized access and incorrect role-based permissions | Authenticate users, identify roles, enforce permissions and control access to protected functions | Sandeepgouda Goudar |
 
 ---
 
@@ -48,30 +48,33 @@ Each engine is a group of related responsibilities that share the same technical
 
 | FR ID | Description | Priority | Source Need (from S0) |
 |---|---|---|---|
-| FR-01 | The system shall allow administrators to create user accounts and assign roles, and shall authenticate users and restrict every action and view to the permissions of their assigned role. | Mandatory | RBAC & permission management |
-| FR-02 | The system shall allow applicants and contractors/architects to create and submit a building permit application with applicant details, property address, permit type, project description, estimated cost and documents, and shall validate mandatory fields before submission. | Mandatory | Role-based workflow coordination |
-| FR-03 | The system shall assign an application to a permit reviewer, zoning officer or building inspector based on its application type, zone, current stage and workload, allow a Department Officer or Admin to override the assignment, and flag applications left unreviewed beyond a set time. | Mandatory | Structured application assignment |
-| FR-04 | The system shall allow applicants to resubmit corrected applications and documents and shall keep the previous versions of the documents. | Mandatory | Correction & resubmission tracking |
-| FR-05 | The system shall update and track the status of an application throughout the permit workflow. | Mandatory | Centralized application status tracking |
-| FR-06 | The system shall allow authorized department officers to approve or reject an application only after all required reviews are completed. | Mandatory | Need for a controlled approval process |
-| FR-07 | The system shall record permit fee and payment status associated with an application. | Mandatory | Need to track permit fee/payment information |
-| FR-08 | The system shall allow building inspectors to record inspection details and inspection status. | Mandatory | Structured application assignment / inspection tracking |
-| FR-09 | The system shall provide notifications to relevant users (in-app notifications and SMS) when important application events or status changes occur. | Mandatory | Transparent communication and visibility |
-| FR-10 | The system shall maintain an audit trail of important actions performed on permit applications. | Mandatory | Accountability and traceability |
-| FR-11 | The system shall provide analytical reports on permit applications, processing time, status, and workflow trends. | Challenge | Better visibility and reporting |
+| FR-01 | The system shall authenticate users and provide access to system functions according to their assigned role. | Mandatory | Role-based access to the complaint management system |
+| FR-02 | The system shall allow citizens to raise a civic complaint with description, category, location and supporting evidence, validate the required information, and generate a unique complaint ID. | Mandatory | Structured and identifiable civic issue reporting |
+| FR-03 | The system shall classify each complaint into a predefined category and map it to the responsible department. | Mandatory | Appropriate department routing |
+| FR-04 | The system shall calculate a priority score using configured factors such as severity, impact, urgency and complaint age, and maintain pending complaints in priority order. | Mandatory | Consistent prioritization and timely handling |
+| FR-05 | The system shall assign complaints to eligible field officers based on department, availability, workload and location, and record the assignment. | Mandatory | Suitable resource allocation and assignment accountability |
+| FR-06 | The system shall allow field officers to view assigned complaints and update their status through defined complaint lifecycle states. | Mandatory | Complaint progress and lifecycle tracking |
+| FR-07 | The system shall monitor the SLA/deadline of each complaint and identify complaints approaching or exceeding the configured SLA. | Mandatory | Timely complaint handling and SLA monitoring |
+| FR-08 | The system shall automatically escalate SLA-breached or unattended complaints to the appropriate supervisor. | Mandatory | Escalation of delayed or unattended complaints |
+| FR-09 | The system shall allow field officers to submit resolution details and supporting evidence, and allow supervisors to verify or reject the resolution before closure. | Mandatory | Controlled resolution, verification and accountability |
+| FR-10 | The system shall allow citizens to view the current status, progress and resolution information of their submitted complaints. | Mandatory | Citizen transparency and complaint tracking |
+| FR-11 | The system shall allow citizens to raise a re-open/review request when a complaint is not properly resolved, subject to the defined workflow. | Mandatory | Citizens reporting unresolved or improperly resolved issues |
+| FR-12 | The system shall allow administrators to manage users, roles, departments, complaint categories, SLA rules and system configurations. | Mandatory | Role-based system administration and configuration |
+| FR-13 | The system shall provide authorized users with complaint, workload, priority, SLA and resolution information through appropriate dashboards or reports. | Mandatory | Monitoring, accountability and data-driven civic management |
+| FR-14 | The system shall analyze complaint locations and identify areas with high concentrations of complaints. | Challenge | Identifying recurring civic issue areas |
+| FR-15 | The system shall generate an optimized visit order for multiple complaints assigned to the same field officer. | Challenge | Efficient field operations and route planning |
 
 ### 2.2 Non-Functional Requirements
 
 | NFR ID | Description | Category | Measurable Target |
 |---|---|---|---|
-| NFR-01 | The system shall respond to normal user requests within an acceptable time under normal load. | Performance | 95% of requests receive a response within 3 seconds with up to 50 concurrent users. |
-| NFR-02 | The system shall restrict access to functions and data based on the user's assigned role. | Security | 100% of protected functions require appropriate authorization. |
-| NFR-03 | The system shall protect user authentication credentials and authenticated sessions. | Security | 100% of passwords securely hashed; sessions expire after 30 minutes of inactivity. |
-| NFR-04 | The system shall provide a clear and consistent interface for users to perform permit-related tasks. | Usability | At least 90% of test users can submit a valid permit application within 5 minutes without technical assistance. |
-| NFR-05 | The system shall preserve application and workflow records when individual operations fail. | Reliability | After an operation failure, recovery completes within 10 seconds without losing successfully saved records. |
-| NFR-06 | The system shall maintain traceable records of important application activities. | Auditability | Every audit record contains 4 fields: user ID, action, date and timestamp. |
-| NFR-07 | The system shall maintain data integrity between related application, review, payment and inspection records. | Data Integrity | A payment, review or inspection record cannot be saved unless its application ID exists in the database. |
-| NFR-08 | The system shall deliver notifications promptly after key events. | Performance | In-app notifications appear within 5 seconds and SMS is sent within 60 seconds of the event. |
+| NFR-01 | Timely responses for normal operations such as login, complaint submission, status viewing and dashboard loading. | Performance | At least 95% of tested requests respond within 2 seconds under the defined project test load. |
+| NFR-02 | Enforce authentication and role-based authorization for protected functions. | Security | 100% of protected operations reject users without the required role/permission. |
+| NFR-03 | Protect user credentials and sensitive complaint information during storage and communication. | Security | Passwords securely hashed; deployed client-server communication uses HTTPS. |
+| NFR-04 | Maintain data consistency throughout the complaint lifecycle. | Data Integrity | In testing, 100% of valid lifecycle transitions preserve complaint ID, status history, assignment and resolution records. |
+| NFR-05 | Provide understandable interfaces appropriate to each user role. | Usability | At least 90% of test users complete core tasks (submit, assign, update, verify) without assistance. |
+| NFR-06 | Maintain an auditable history of important complaint operations. | Traceability | 100% of status, assignment, escalation and resolution changes record the responsible user and timestamp. |
+| NFR-07 | Prevent invalid data from entering or corrupting the complaint workflow. | Data Validation | 100% of mandatory-field and invalid-state test cases rejected with an appropriate validation response. |
 
 ---
 
@@ -81,23 +84,25 @@ Each engine is a group of related responsibilities that share the same technical
 
 | ID | Actor | Description / User Story | Main Flow | Exception Flow |
 |---|---|---|---|---|
-| UC-01 | Admin | Manage users and their assigned roles. | Admin logs in → creates/updates user → assigns role → system saves authorization details. | Invalid role/user information → system rejects the operation and displays an error. |
-| UC-02 | All users | Log in securely and access role-based features. | User enters credentials → system verifies → role dashboard is displayed. | Wrong credentials → error shown. 5 failed attempts → account locked. Session idle for 30 minutes → user logged out. |
-| UC-03 | Applicant | Submit a building permit application with required details and documents. | Login → enter application details → upload documents → validate → submit → system generates application record. | Missing/invalid information → system displays errors → applicant corrects and resubmits. |
-| UC-04 | Department Officer | Assign an application to a reviewer, zoning officer or inspector. | Officer logs in → opens submitted application → selects assignee → confirms → system records assignment. | Already assigned → system asks to confirm reassignment. Unauthorized user → access denied. |
-| UC-05 | Permit Reviewer | Review a submitted permit application and its documents. | Reviewer logs in → views assigned application → checks details/documents → records review result. | Missing/invalid documents → reviewer requests corrections. |
-| UC-06 | Zoning Officer | Perform zoning verification for an application. | Officer opens application → checks zoning-related information → records zoning decision. | Zoning information insufficient → application is sent for correction/review. |
-| UC-07 | Applicant | Respond to correction requests and resubmit the application. | Applicant views correction request → makes corrections → uploads updated documents → resubmits. | Required correction not completed → system blocks resubmission and shows a message. |
-| UC-08 | Applicant | Track the current status of a submitted permit application. | Login → view applications → select application → system displays current status and relevant updates. | Application not found or unauthorized access → system denies access and displays a message. |
-| UC-09 | Senior Department Officer | Approve or reject an application after required reviews. | Officer reviews completed application → selects approve/reject → records decision → system updates status. | Required review incomplete → system prevents final decision. |
-| UC-10 | Finance Officer | Record and update the payment status of a permit application. | Finance Officer opens application → views fee information → records payment status → system updates record. | Payment information invalid/incomplete → status remains Pending and the issue is recorded. |
-| UC-11 | Building Inspector | Record the inspection result for an approved application. | Inspector opens assigned application → performs inspection → records details/result → system updates inspection status. | Inspection cannot be completed → inspector records the reason and reschedules / follows the next workflow step. |
+| UC-01 | Citizen | Submit a civic complaint with description, category, location and optional evidence so the issue can be processed. | Login → enter complaint details → select/use location → upload evidence → submit → complaint ID generated → status = Submitted | Missing/invalid data → validation error → citizen corrects and resubmits |
+| UC-02 | Citizen | Track my complaint to know its current status and progress. | Login → open My Complaints → select complaint → view status, assignment/progress and updates | Complaint ID not found / unauthorized access → appropriate error |
+| UC-03 | System | Classify a complaint into a predefined category and map it to the responsible department. | Complaint submitted → validate category → apply category-department mapping → store category and department | Category unavailable/ambiguous → mark for manual review |
+| UC-04 | System | Calculate and maintain complaint priority so higher-priority complaints are processed first. | Complaint received → calculate severity/impact/urgency/age → generate priority score → insert into priority queue | Required priority data missing → use configured default / manual review |
+| UC-05 | System | Update waiting complaints using aging so low-priority complaints are not ignored indefinitely. | Complaint remains pending → background process checks waiting time → aging score increases → priority recalculated → queue updated | Background process failure → record failure and retry/update next cycle |
+| UC-06 | Supervisor / Department Official | Assign complaints to suitable officers based on department, availability and workload. | View prioritized complaints → select eligible department officers → check availability/workload → assign officer → record assignment | No suitable officer → keep complaint pending and flag for supervisor action |
+| UC-07 | Field Officer | View assigned complaints and update their status so the system reflects actual progress. | Login → view assigned complaints → accept task → start work → update status → add remarks | Officer unavailable/rejects task → return complaint for reassignment |
+| UC-08 | System / Supervisor | Monitor complaint deadlines and escalate complaints approaching or exceeding their SLA. | Complaint assigned → SLA timer starts → monitor deadline → warning → SLA breach → escalate to supervisor | Monitoring failure → retry monitoring and record the event |
+| UC-09 | Field Officer | Submit resolution details and evidence so completed work can be verified. | Open assigned complaint → resolve issue → enter resolution description → upload solved image/evidence → submit resolution | Missing resolution evidence/details → reject submission and request correction |
+| UC-10 | Supervisor | Verify an officer's resolution before closing the complaint. | View resolved complaint → check details/evidence → approve → status = Closed | Resolution inadequate → reject verification → return to officer |
+| UC-11 | Citizen | Receive/view status updates to know when the issue is submitted, assigned, resolved or closed. | Status changes → notification/update generated → citizen views updated status | Notification failure → status remains available through complaint tracking |
+| UC-12 | Supervisor / Admin | View complaint statistics and locations to understand workload and recurring civic issues. | Select dashboard → filter by category/location/status/time → system aggregates data → display results/hotspots | Invalid filter / no matching data → empty result with message |
+| UC-13 | Field Officer | Get an optimized visit order for multiple assigned complaints to reduce unnecessary travel. | Officer has multiple assignments → obtain locations → generate route → apply route optimization → display visit order | Missing/unreachable location → exclude it and flag for correction |
 
 ### 3.2 Use Case Diagram
 
-All role actors are specializations of a general "User" and log in through UC-02 (`<<include>>`). UC-09 (approve/reject) includes UC-05 (review) and UC-06 (zoning verification), so a final decision always follows those outcomes. UC-07 (respond to corrections & resubmit) `<<extend>>`s UC-03 (submit application) as an optional/conditional path.
+Actors: Citizen, Field Officer, Supervisor / Department Official, Admin and System (background process). Submitting a complaint includes providing a description, selecting a category, sharing location and uploading evidence, and leads into classification, priority calculation with aging, the priority queue, officer assignment, SLA monitoring/escalation, and recording and verifying resolution before closure. Admin manages users and roles, system parameters, audit logs and data backup/recovery.
 
-![Use Case Diagram](S1_doc_media/use_case_diagram.png)
+![Use Case Diagram](S1_doc_media/civic_use_case_diagram.jpg)
 
 ---
 
@@ -105,25 +110,23 @@ All role actors are specializations of a general "User" and log in through UC-02
 
 | Requirement | Acceptance Criteria | Test / Verification Method |
 |---|---|---|
-| FR-01 | Admin creates users with one role each. Users log in with valid credentials and see only their role's features. Other actions are denied. | Log in as each role and check the menus. Try a restricted action and confirm it is denied. Create a duplicate username and confirm it is rejected. |
-| FR-02 | Submission works only when all mandatory fields and a document are given. The system creates a unique application ID and sets the status to "Submitted". | Submit a valid application and check the ID and status. Leave each mandatory field blank and confirm it is blocked. |
-| FR-03 | Only a Department Officer or Admin can assign. The assignee must suit the current stage. The assignment is saved. Reassignment asks for confirmation. | Assign as an officer and check the assignee sees it. Try as an Applicant and confirm it is denied. Reassign and check the prompt appears. |
-| FR-04 | Applicant can resubmit only after a correction request and after making the changes. The old version is kept and the status becomes "Resubmitted". | Request a correction, resubmit and check the status. Resubmit without changes and confirm it is blocked. |
-| FR-05 | Every action updates the status to a defined value. Only valid transitions are allowed. Applicant sees the latest status. | Run the full workflow and check each status. Try an invalid jump (Submitted → Approved) and confirm it is blocked. |
-| FR-06 | Approve/Reject is allowed only after the review and zoning checks are complete. Rejection needs a reason. The decision is added to the audit log. | Try to approve with zoning pending and confirm it is blocked. Complete all reviews, approve, and check the status and audit entry. Reject without a reason and confirm it is blocked. |
-| FR-07 | Finance Officer records the fee, payment status and date. Invalid data keeps the status "Pending". | Save a valid payment and check it. Enter a negative amount and confirm the status stays Pending. Try as another role and confirm it is denied. |
-| FR-08 | Inspector records the date, result (Pass / Fail / Could not complete) and remarks. A reason is required if not completed. | Record each result and check it is saved. Choose "Could not complete" with no reason and confirm it is blocked. |
-| FR-09 | In-app and SMS notifications are sent to the right users for key events. Each one shows the application ID and event. | Trigger each event and check the right user gets both. Confirm unrelated users get none. |
-| FR-10 | Every important action creates an audit record. Audit records cannot be edited or deleted. | Perform each action and check the audit entry. Try to edit or delete a record and confirm it is not possible. |
-| FR-11 | Reports show counts by status, average processing time and monthly trend. They can be filtered by date and permit type. Only authorized roles can view them. | Load known test data and compare the report with manual counts. Apply a date filter. Try as an Applicant and confirm it is denied. |
-| NFR-01 | 95% of requests respond within 3 seconds with 50 users. | Run a load test with 50 users and check the 95th percentile is ≤ 3 s. |
-| NFR-02 | All protected functions need the right role. Wrong or missing access returns 401/403. | Call every protected endpoint with no token and with the wrong role. Confirm all are denied. |
-| NFR-03 | Passwords are stored hashed. Sessions expire after 30 minutes idle. | Check the database for plain-text passwords. Stay idle for 30 minutes and confirm logout. |
-| NFR-04 | 90% of test users submit a valid application within 5 minutes without help. | Time 10 users. At least 9 must finish within 5 minutes. |
-| NFR-05 | After a failure, the system recovers within 10 seconds. Saved records stay intact. No partial records remain. | Stop the service mid-save and restart. Check recovery time and that no half-saved record exists. |
-| NFR-06 | Every audit record has user ID, action, date and timestamp, with none empty. | Query the audit table and confirm no nulls in the 4 fields. |
-| NFR-07 | Payment, review and inspection records are rejected if the application ID does not exist. | Insert each with a fake application ID and confirm an error. |
-| NFR-08 | In-app notifications appear within 5 seconds. SMS is sent within 60 seconds. | Trigger 20 events and check at least 19 meet both limits. |
+| FR-01 | A user is authenticated with valid credentials and granted access only to functions permitted for their role. Invalid credentials and unauthorized role access are rejected. | Role-based functional and security testing with Citizen, Field Officer, Supervisor and Admin accounts. |
+| FR-02 | A citizen submits a complaint with required description, category, location and evidence. The system validates mandatory data, stores the complaint and generates a unique complaint ID with status SUBMITTED. | Functional test with valid, missing and invalid inputs; verify database record, complaint ID and initial status. |
+| FR-03 | Every valid complaint is assigned exactly one predefined category and the corresponding responsible department per the configured mapping. | Test complaints from all configured categories and verify resulting category and department. |
+| FR-04 | The system calculates a priority score from configured severity, impact, urgency and age factors and keeps pending complaints in correct priority order. | Unit and integration tests with predefined values; verify scores and priority queue ordering. |
+| FR-05 | A complaint is assigned only to an eligible field officer from the responsible department who satisfies the configured availability, workload and location conditions. The assignment is recorded. | Assignment test with officers of different departments, availability, workload and locations; verify selected officer and assignment record. |
+| FR-06 | A field officer views assigned complaints and updates status only through valid lifecycle transitions such as ASSIGNED → IN_PROGRESS → RESOLVED. | Role-based functional test with valid and invalid status transitions. |
+| FR-07 | The system calculates the configured SLA deadline, continuously monitors the complaint and identifies those approaching or exceeding the deadline. | Controlled-time test with short SLA values; verify deadline calculation, warning state and breach detection. |
+| FR-08 | When a complaint exceeds its SLA or stays unattended per the escalation rule, the system creates an escalation and notifies/routes it to the appropriate supervisor. | Controlled-time escalation test; verify escalation record, target supervisor and notification/status. |
+| FR-09 | A field officer submits resolution details and evidence; a supervisor verifies or rejects the resolution before final closure. | End-to-end test covering resolution submission, evidence upload, supervisor approval and rejection. |
+| FR-10 | A citizen views current status, progress and resolution information only for their own submitted complaints. | Citizen-role test; verify correct information is shown and access to other citizens' complaints is denied. |
+| FR-11 | A citizen submits a re-open/review request for a complaint not properly resolved; it enters the defined review/rework workflow. | Test after closure; submit request and verify REOPENED/REVIEW state and supervisor workflow. |
+| FR-12 | An administrator creates, updates or deactivates users and manages roles, departments, categories, SLA rules and permitted configurations. | Admin-role test; verify changes and rejection of the same operations by unauthorized roles. |
+| FR-13 | Authorized users view complaint, workload, priority, SLA and resolution information by role; dashboard/report values match underlying data. | Functional and database verification with a known test dataset; compare displayed values with query results. |
+| FR-14 | The system processes valid location data and identifies high-concentration areas matching the configured spatial grouping/counting rules. | Algorithm test with a predefined location dataset; compare hotspots with manually calculated reference results. |
+| FR-15 | For an officer with multiple assigned complaints with valid locations, the system generates and displays a feasible visit order using the configured route optimization method. | Algorithm test with predefined locations and road/graph data; verify route feasibility and visit sequence. |
+
+*(NFR-01 to NFR-07 are verified against the measurable targets listed in section 2.2.)*
 
 ---
 
@@ -131,229 +134,202 @@ All role actors are specializations of a general "User" and log in through UC-02
 
 | Requirement | Description | Priority | Justification |
 |---|---|---|---|
-| FR-01 | Create users, assign roles, authenticate and restrict actions by role. | Mandatory | Core of the project (RBAC). All other features depend on it. |
-| FR-02 | Submit a permit application with details and documents, with validation. | Mandatory | Starting point of the workflow. Nothing else works without it. |
-| FR-03 | Assign an application to a reviewer, zoning officer or inspector. | Mandatory | Needed so each application reaches the right officer. |
-| FR-04 | Resubmit corrected applications and documents. | Mandatory | Completes the correction loop, a main pain point in S0. |
-| FR-05 | Update and track application status through the workflow. | Mandatory | Solves the main S0 problem of no status visibility. |
-| FR-06 | Approve or reject only after all required reviews are done. | Mandatory | Enforces a controlled approval process. |
-| FR-07 | Record permit fee and payment status. | Mandatory | Payment is a required stage in the permit lifecycle. |
-| FR-08 | Record inspection details and status. | Mandatory | Inspection is the final stage of the permit lifecycle. |
-| FR-09 | Send in-app and SMS notifications for key events and status changes. | Mandatory | Keeps users informed and improves transparency. |
-| FR-10 | Maintain an audit trail of important actions. | Mandatory | Needed for accountability and traceability. |
-| FR-11 | Provide reports on applications, processing time, status and trends. | Challenge | Useful for analysis, but the workflow works without it. |
-| NFR-01 | 95% of requests respond within 3 seconds with 50 users. | Challenge | Needs load testing. A target to improve after core features work. |
-| NFR-02 | Restrict functions and data by assigned role. | Mandatory | Directly supports the RBAC objective. |
-| NFR-03 | Hash passwords and expire sessions after 30 minutes idle. | Mandatory | Basic security needed to protect user accounts. |
-| NFR-04 | 90% of test users submit an application within 5 minutes. | Mandatory | Checks that the system is easy to use. |
-| NFR-05 | Recover within 10 seconds without losing saved records. | Mandatory | Prevents loss of application and workflow data. |
-| NFR-06 | Audit records contain user ID, action, date and timestamp. | Mandatory | Makes the audit trail complete and useful. |
-| NFR-07 | Reject records whose application ID does not exist. | Mandatory | Keeps application, payment, review and inspection data consistent. |
-| NFR-08 | In-app notifications within 5 seconds and SMS within 60 seconds. | Challenge | SMS timing depends on an external service. |
+| FR-01 | Authenticate users and provide role-based access. | Mandatory | Citizen, Field Officer, Supervisor and Admin have different responsibilities and permissions. |
+| FR-02 | Raise, validate and register a complaint; receive a unique ID. | Mandatory | Entry point of the system; the lifecycle cannot begin without it. |
+| FR-03 | Classify complaints and map to department. | Mandatory | Required before appropriate assignment and processing. |
+| FR-04 | Calculate priority and keep complaints in priority order. | Mandatory | Core objective; demonstrates the Priority Queue / Max Heap component. |
+| FR-05 | Assign complaints to eligible field officers. | Mandatory | Converts prioritized complaints into actionable field assignments. |
+| FR-06 | Officers view assignments and update status through valid transitions. | Mandatory | Needed to track a complaint from assignment through resolution. |
+| FR-07 | Monitor SLA/deadlines. | Mandatory | Detects delayed complaints and supports timely handling. |
+| FR-08 | Auto-escalate breached or unattended complaints. | Mandatory | Provides corrective action when complaints are delayed. |
+| FR-09 | Submit resolution; supervisor verifies or rejects before closure. | Mandatory | Controlled verification completes the lifecycle reliably. |
+| FR-10 | Citizens view status, progress and resolution info. | Mandatory | Citizen transparency and tracking are essential. |
+| FR-11 | Citizens raise re-open/review requests. | Mandatory | Feedback mechanism when the issue remains unresolved. |
+| FR-12 | Admin manages users, roles, departments, categories, SLA rules, configuration. | Mandatory | Controlled administration of the role-based workflow. |
+| FR-13 | Dashboards/reports for complaints, workload, priority, SLA, resolution. | Mandatory | Lets supervisors and administrators monitor operations and performance. |
+| FR-14 | Hotspot identification from complaint locations. | Challenge / Stretch | Advanced spatial/DSA processing, but the core lifecycle works without it. |
+| FR-15 | Optimized visit order for multiple assigned complaints. | Challenge / Stretch | Advanced DSA (graphs, shortest paths, TSP, 2-Opt), not required for the core lifecycle. |
+
+*NFR-01 to NFR-07 are treated as baseline quality targets for the system.* Mandatory requirements must be satisfied for acceptance; Challenge requirements are stretch targets.
 
 ---
 
 ## 6. Requirements Traceability Matrix
 
-Each requirement is traced from its S0 source need to the owning engine, with design references to be added in later stages (S2–S4) and test cases defined for S6. All requirements are currently at status **Specified**.
+Design references (S2–S4) and test references (S6) are to be added in later stages; all requirements are currently **Defined**.
 
-| Req ID | Source Need (S0) | Owning Engine | Test Ref |
-|---|---|---|---|
-| FR-01 | RBAC & permission management | E1 Access Control & Security | TC-FR-01 |
-| FR-02 | Role-based workflow coordination | E2 Permit Workflow & Decision | TC-FR-02 |
-| FR-03 | Structured application assignment | E4 Assignment, Routing & Workload | TC-FR-03 |
-| FR-04 | Correction & resubmission tracking | E2 Permit Workflow & Decision (document versions: E3) | TC-FR-04 |
-| FR-05 | Centralized application status tracking | E2 Permit Workflow & Decision | TC-FR-05 |
-| FR-06 | Controlled approval process | E2 Permit Workflow & Decision | TC-FR-06 |
-| FR-07 | Permit fee and payment tracking | E2 Permit Workflow & Decision | TC-FR-07 |
-| FR-08 | Inspection management and result tracking | E2 Permit Workflow & Decision | TC-FR-08 |
-| FR-09 | Transparent communication and visibility | E2 Permit Workflow & Decision | TC-FR-09 |
-| FR-10 | Accountability and traceability | E3 Transaction, Data & Audit Integrity | TC-FR-10 |
-| FR-11 | Better visibility and reporting | E4 Assignment, Routing & Workload | TC-FR-11 |
-| NFR-01 | Role-based workflow coordination (timely response) | E3 Transaction, Data & Audit Integrity | TC-NFR-01 |
-| NFR-02 | RBAC & permission management | E1 Access Control & Security | TC-NFR-02 |
-| NFR-03 | RBAC & permission management | E1 Access Control & Security | TC-NFR-03 |
-| NFR-04 | Role-based workflow coordination (ease of use) | All engines | TC-NFR-04 |
-| NFR-05 | Centralized application status tracking (reliable records) | E3 Transaction, Data & Audit Integrity | TC-NFR-05 |
-| NFR-06 | Audit logs, notifications & monitoring | E3 Transaction, Data & Audit Integrity | TC-NFR-06 |
-| NFR-07 | Centralized application status tracking (consistent records) | E3 Transaction, Data & Audit Integrity | TC-NFR-07 |
-| NFR-08 | Audit logs, notifications & monitoring | E2 Permit Workflow & Decision | TC-NFR-08 |
+| Req ID | Source Need (S0) | Owning Engine / Module | Design Owner | Test Owner |
+|---|---|---|---|---|
+| FR-01 | Authenticated, role-based access | E4 Identity, Role & Access Control | Sandeepgouda | Pavitra |
+| FR-02 | Structured civic issue reporting | E1 Complaint Processing & Assignment | Lahari | Akash |
+| FR-03 | Appropriate department routing | E1 | Lahari | Akash |
+| FR-04 | Consistent prioritization and timely handling | E1 | Lahari | Akash |
+| FR-05 | Resource allocation and assignment accountability | E1 | Lahari | Akash |
+| FR-06 | Complaint progress and lifecycle tracking | E2 SLA, Resolution & Verification | Pavitra | Lahari |
+| FR-07 | Timely handling and SLA monitoring | E2 | Pavitra | Lahari |
+| FR-08 | Escalation of delayed/unattended complaints | E2 | Pavitra | Lahari |
+| FR-09 | Controlled resolution, verification, accountability | E2 | Pavitra | Sandeepgouda |
+| FR-10 | Citizen transparency and tracking | Supporting: E1 / E2 | Pavitra | TBD |
+| FR-11 | Report unresolved/improperly resolved complaints | E2 | Pavitra | Sandeepgouda |
+| FR-12 | Controlled administration of users, roles, configuration | E4 | Sandeepgouda | Akash |
+| FR-13 | Monitoring, accountability, data-driven management | Supporting: E1 / E2 / E3 / E4 | Akash | Sandeepgouda |
+| FR-14 | Identifying recurring civic issue areas | E3 Hotspot Analysis & Route Optimization | Akash | Sandeepgouda |
+| FR-15 | Efficient field operations and route planning | E3 | Akash | Sandeepgouda |
+| NFR-01 | Timely system responses | System-wide / relevant engines | Sandeepgouda | Pavitra |
+| NFR-02 | Secure authentication and authorization | E4 | Sandeepgouda | Pavitra |
+| NFR-03 | Protect credentials and sensitive complaint info | E4 | Sandeepgouda | Pavitra |
+| NFR-04 | Data consistency across the lifecycle | System-wide / relevant engines | Sandeepgouda | Pavitra |
+| NFR-05 | Understandable role-appropriate interfaces | System-wide / web interface | Pavitra | Akash |
+| NFR-06 | Auditable history of operations | E2 / E4 + audit mechanism | Lahari | Akash |
+| NFR-07 | Prevent invalid data corrupting the workflow | E1 / E2 + validation | Lahari | Akash |
 
 ---
 
 ## 7. Requirement Clustering
 
-Related requirements are grouped by common technical responsibility (not by UI screen or frontend/backend layer).
-
 | Cluster | Responsibility Area | Requirements | Common Technical Responsibility | Engine |
 |---|---|---|---|---|
-| CL-01 | Access control and session security | FR-01, NFR-02, NFR-03 | Verify identity, check role permissions on every request, hash passwords and expire idle sessions. | E1 |
-| CL-02 | Workflow state and decision control | FR-02, FR-04, FR-05, FR-06 | Allow only valid stage transitions, require reviews before approval and manage the correction loop. | E2 |
-| CL-03 | Stage records and workflow notifications | FR-07, FR-08, FR-09, NFR-08 | Record payment and inspection results against the current stage and notify users when events occur. | E2 |
-| CL-04 | Data consistency, audit and recovery | FR-10, NFR-01, NFR-05, NFR-06, NFR-07 | Save related records atomically, enforce foreign keys, recover from failures and keep an append-only audit trail. | E3 |
-| CL-05 | Assignment, routing and workload analytics | FR-03, FR-11 | Route applications by type, zone and workload, allow officer override and report on workload and processing time. | E4 |
+| C1 | Identity, authentication & access control | FR-01, FR-12, NFR-02, NFR-03, NFR-06 | Authenticate users, manage roles and permissions, protect credentials and control access to protected functions. | E4 |
+| C2 | Complaint processing, classification, priority & assignment | FR-02, FR-03, FR-04, FR-05 | Validate/register complaints, classify and map departments, calculate priority and assign eligible officers. | E1 |
+| C3 | SLA, resolution & verification | FR-06, FR-07, FR-08, FR-09, FR-11 | Manage lifecycle, monitor SLA, escalate delays, verify resolution, close and re-open complaints. | E2 |
+| C4 | Complaint tracking & operational reporting | FR-10, FR-13 | Provide citizen status/progress information and authorized dashboards/reports from system data. | Supporting: E1 / E2 / E3 / E4 |
+| C5 | Location, hotspot & route optimization | FR-14, FR-15 | Analyze complaint locations, identify hotspots and generate efficient visit orders. | E3 |
+| C6 | System-wide performance, integrity & validation | NFR-01, NFR-04, NFR-05, NFR-07 | Maintain timely responses, data consistency, role-appropriate usability and validation. | System-wide / relevant engines |
 
 ---
 
 ## 8. Engine Decomposition Matrix
 
-| | E1 — Access Control & Security | E2 — Permit Workflow & Decision | E3 — Transaction, Data & Audit Integrity | E4 — Assignment, Routing & Workload |
+| | E1 — Complaint Processing & Assignment | E2 — SLA, Resolution & Verification | E3 — Hotspot Analysis & Route Optimization | E4 — Identity, Role & Access Control |
 |---|---|---|---|---|
-| **Clusters** | CL-01 | CL-02, CL-03 | CL-04 | CL-05 |
-| **Primary responsibility** | Verify identity and allow only role-permitted actions on every request. | Control stage transitions and decisions, record stage results and notify users. | Keep related records consistent, recoverable and traceable. | Choose the right officer for each application and report on workload and processing time. |
-| **Inputs** | Credentials, session token, user role, requested action. | Submitted application, review and zoning results, correction requests, payment and inspection details. | Save and update requests, document uploads, audit events. | Application type, zone, stage, officer workload, override request. |
-| **Outputs** | Access granted or denied, session token, lockout status. | Updated status, correction request, approve/reject decision, notifications. | Saved or rolled-back result, document versions, audit records. | Assigned officer, reassignment record, workload and processing-time reports. |
-| **State / data owned** | Users, roles, permissions, sessions, failed-login count. | Application status, review results, correction history, payment and inspection records. | Applications, documents and versions, payments, reviews, inspections, audit log. | Assignment records, officer workload counts, routing rules. |
-| **Core mechanism** | Password hashing, token sessions, deny-by-default role checks, 30-minute idle expiry, lockout after 5 failed logins. | State machine with allowed transitions, review checks before approval, correction loop. | Atomic transactions with rollback, foreign-key constraints, locking for concurrent updates, document version numbers, append-only audit table. | Rule matching by type and zone, priority queue picks least-loaded eligible officer, officer override, aggregation of Chicago data. |
-| **Dependencies** | Every engine calls E1 before acting. E3 stores the user data. | E1 for permission checks, E3 for saving data, E4 for the assigned officer. | E1 for user identity in audit records. Used by E2 and E4 to store data. Relational database. | E1 for override permission. E2 asks E4 for an assignee. E3 for data. |
-| **Failure cases / recovery** | Wrong password gives an error. 5 failed logins lock the account. Expired or missing token gives 401/403. | Invalid stage jump blocked. Approval with pending reviews blocked. Resubmission without corrections blocked. Failed save rolled back by E3. | Failed save rolled back with no partial record. Invalid application ID rejected. Concurrent edit: second user gets a conflict message. Crash recovered on restart. | No eligible officer: application goes to an unassigned queue and an officer is alerted. Already assigned: confirmation before reassignment. Unauthorized override denied. |
-| **Primary KPI** | 100% of protected functions require authorization. 100% of passwords hashed. Sessions expire after 30 min idle. | 100% of invalid transitions blocked. 0 approvals with incomplete reviews. In-app notification within 5 s, SMS within 60 s. | Recovery within 10 s with no lost records. 0 records with a missing application ID. 100% of audit records have all 4 fields. 95% of requests within 3 s at 50 users. | 100% of applications assigned to an eligible officer. Workload difference between officers within 2 applications in test data. Report figures match manual counts. |
-| **Owner** | Akhil Teja | Annapurna Boratti | Amruta Kutri | Sanmathi Hegde |
+| **Primary responsibility** | Receive, validate, classify, prioritize and assign complaints to eligible field officers. | Monitor SLAs, escalate delays, manage resolution, verify complaints and control closure/reopening. | Analyze complaint locations, identify hotspots and optimize visit order for multiple assigned complaints. | Authenticate users and enforce role-based access to protected functions. |
+| **Inputs** | Complaint details, location, category, severity, impact, urgency, officer data | Complaint ID, assignment, SLA, status, time, resolution details | Complaint coordinates, categories, statuses, assignments, road/network data | Login details, user role, access request |
+| **Outputs** | Complaint ID, category, department, priority, assigned officer | SLA status, escalation, updated status, verification and closure result | Hotspots, location counts, optimized visit order | Authentication result, session/token, ALLOW/DENY |
+| **State / data owned** | Complaint details, priority, queue and assignment data | SLA status, lifecycle status, resolution and verification data | Spatial groups, hotspot data and route information | Users, roles, permissions and session data |
+| **Core mechanism** | Validation + DBMS + rule-based classification + Max Heap/Priority Queue + eligibility filtering | Deadline checking + background processing + state transitions + role-based workflow | Hash Map + spatial grouping + Top-K + Graph + Dijkstra + TSP/2-Opt | Authentication + RBAC + password hashing + permission checking |
+| **Dependencies** | E4 for authorization; E2 receives assigned complaints | E1 assignment data; E4 authorization; supervisor interface | E1 complaint/assignment data; field officer interface | DBMS; all engines requiring authorization |
+| **Owner** | Lahari Banakar | Pavitra S A | Akash Hugar | Sandeepgouda Goudar |
 
 ---
 
 ## 9. Engine Description Sheets
 
-### 9.1 Engine E1 — Access Control & Security Engine
+### 9.1 Engine E1 — Complaint Processing & Assignment Engine
 
-**Owner:** Akhil Teja (01FE24BCS284) · **Requirements:** CL-01 — FR-01, NFR-02, NFR-03
+**Owner:** Lahari Banakar · **Requirements:** FR-02, FR-03, FR-04, FR-05 · **Area:** Web Technology + DSA + OS + DBMS
 
-**Purpose.** This engine is responsible for checking who a user is and what that user is allowed to do. It exists because a permit system has many roles, and each role must perform only its own actions. It solves the problem of unauthorized actions and insecure sessions by checking identity and role permission on every request. Passwords are stored hashed, sessions expire after inactivity and repeated failed logins lock the account. Every other engine depends on it before acting.
+**Purpose.** Receives civic complaints and ensures only valid complaints enter the workflow. It registers the complaint, generates a unique Complaint ID, classifies it and maps it to the responsible department, then calculates priority, maintains the processing order and assigns the complaint to an eligible field officer. It combines complaint-entry and processing responsibilities into one independently testable unit.
 
 **Boundary**
 
-| Primary Responsibility | Owns | Does NOT Own |
-|---|---|---|
-| Verify identity and allow only role-permitted actions on every request. | User accounts and role assignment, login and logout, password hashing, session tokens, role-permission checks, session expiry, account lockout. | Workflow stage decisions (E2), officer assignment (E4), data storage and audit records (E3), screen design. |
+| Owns | Does NOT Own |
+|---|---|
+| Mandatory-field and data-format validation; unique Complaint ID generation and registration; predefined category/department mapping; priority score and priority queue state; aging updates for pending complaints; officer eligibility filtering and assignment records | User authentication and role management (E4); SLA monitoring and escalation (E2); resolution verification and closure (E2); hotspot analysis and route optimization (E3) |
 
 **Inputs, outputs and state**
 
 | Inputs / Trigger | Outputs / Result | State / Data Owned |
 |---|---|---|
-| Username and password, user role, create/update user request from Admin. | Login success or failure, session token, user created with role, lockout status. | Users, roles, permissions, hashed passwords, failed-login count. |
-| Session token and the requested action from any engine. | Access granted, or access denied (401/403). | Active sessions and their last-activity time. |
+| Complaint description, category, location, evidence, citizen ID, classification rules, severity, impact, urgency, age, department, officer availability, workload and location | Validated complaint, unique Complaint ID, category, responsible department, priority score/order, selected officer, assignment record and status | Complaint details, classification, priority score, queue position, assignment records and processing status |
 
 **Core mechanism**
 
 | Mechanism / Rule | Why It Is Needed | Requirements |
 |---|---|---|
-| Deny-by-default role-permission check on every request. An action is allowed only if the role has that permission. | Stops users from doing actions outside their role. | FR-01, NFR-02 |
-| Password hashing and token-based sessions that expire after 30 minutes of inactivity. | Protects stored credentials and closes unused sessions. | NFR-03 |
-| Account lockout after 5 failed login attempts. | Prevents repeated password guessing. | FR-01, NFR-03 |
+| Input and mandatory-field validation; unique ID generation; DBMS transaction; predefined classification rules with Hash Map/DBMS lookup; priority scoring; Priority Queue/Max Heap; aging via background processing; eligibility filtering and workload/availability/location-based officer selection | Keeps the complaint-to-assignment pipeline consistent and lets priority information drive assignment directly | FR-02, FR-03, FR-04, FR-05 |
 
 **Dependencies, failures and KPI**
 
 | Interface / Dependency | Failure / Boundary Case | Handling / Recovery | KPI |
 |---|---|---|---|
-| E2, E3 and E4 call E1 before every protected action. | Missing, expired or invalid token, or wrong role. | Request denied with 401/403 and no data returned. User sent to login page. | 100% of protected functions require authorization (checked on every endpoint). |
-| E3 saves user and role data. E1 supplies the user ID for audit records. | Wrong credentials, or 5 failed attempts. | An error is shown. After 5 attempts the account is locked until the Admin unlocks it. | 100% of stored passwords hashed. Account locks after 5 failed attempts. |
-| Admin creates and updates users through E1. | Invalid role or duplicate user information (UC-01). | Operation rejected with an error; nothing saved. | Sessions expire after 30 minutes of inactivity. |
+| E4 provides authorization; uses DBMS data; passes assigned complaints to E2; data also supports E3 and dashboards | Invalid/missing complaint data; database failure; unmapped category; invalid priority factors; no eligible officer | Reject/flag invalid input; retry DB operation; manual review for unmapped category; default/manual review for invalid priority data; keep unassigned and notify supervisor | ≥95% of valid complaints correctly processed; 100% invalid submissions rejected; 100% valid classifications mapped to a department; 100% tested assignments select eligible officers |
 
-### 9.2 Engine E2 — Permit Workflow & Decision Engine
+### 9.2 Engine E2 — SLA, Resolution & Verification Engine
 
-**Owner:** Annapurna Boratti (01FE24BCS283) · **Requirements:** CL-02 — FR-02, FR-04, FR-05, FR-06; CL-03 — FR-07, FR-08, FR-09, NFR-08
+**Owner:** Pavitra S A · **Requirements:** FR-06, FR-07, FR-08, FR-09, FR-11 (supports FR-10) · **Area:** OS + Web Technology + DBMS
 
-**Purpose.** This engine is responsible for moving a permit application through its stages in the correct order. It exists because many roles act on one application, and each step must happen only when the previous one is complete. It solves the problem of invalid stage jumps and inconsistent decisions. It allows only valid status changes, blocks approval until the required reviews are done, and manages the correction and resubmission loop. It also records payment and inspection results and notifies users when important events occur.
+**Purpose.** Manages the complaint after assignment. It monitors deadlines, identifies approaching or breached SLAs and escalates delayed or unattended complaints. It also manages status progression, resolution evidence, supervisor verification, closure and the citizen re-open/review workflow, giving controlled completion of the complaint lifecycle.
 
 **Boundary**
 
-| Primary Responsibility | Owns | Does NOT Own |
-|---|---|---|
-| Control stage transitions and decisions, record stage results and notify users. | Application submission and field validation, status transitions, review and zoning completion checks, correction requests and resubmission, approve/reject decision, payment status, inspection result, in-app and SMS notifications. | Login and permission checks (E1), saving data, constraints, audit records and document versions (E3), choosing the officer for an application (E4), workload reports (E4). |
+| Owns | Does NOT Own |
+|---|---|
+| SLA deadlines and status; escalation records; lifecycle status and valid transitions; resolution details and evidence; supervisor verification; closure and re-open/review handling | Complaint intake, classification, priority and assignment (E1); hotspot and route processing (E3); authentication and access control (E4) |
 
 **Inputs, outputs and state**
 
 | Inputs / Trigger | Outputs / Result | State / Data Owned |
 |---|---|---|
-| Application details and documents, corrected applications, review and zoning results, correction requests. | Application accepted with a unique ID, updated status, correction request to the Applicant. | Application status, review results, correction and resubmission history. |
-| Approve/reject decision, payment details, inspection details. | Final status (Approved or Rejected), updated payment status, updated inspection status. | Decision and reason, payment records, inspection records. |
-| Any important event or status change. | In-app notification and SMS to the relevant users. | Notification status. |
+| Assigned complaint, assignment/start time, SLA duration, status, current time, resolution details and evidence, supervisor decision, citizen re-open/review request | SLA status, warning/breach status, escalation record, updated status, resolution record, verification result, closure or re-open/review state | SLA deadline/status, escalation state, status history, resolution record, verification status |
 
 **Core mechanism**
 
 | Mechanism / Rule | Why It Is Needed | Requirements |
 |---|---|---|
-| Mandatory-field validation and a state machine with allowed status transitions. | Stops incomplete applications and invalid stage jumps. | FR-02, FR-05 |
-| Prerequisite check: approval allowed only after review and zoning are complete. | No application is approved before all required reviews. | FR-06 |
-| Correction loop: resubmission allowed only after corrections are made, and the application returns to review. | Handles rework without losing track of it. | FR-04 |
-| Stage records and event-triggered notifications: payment and inspection results attach to the correct stage, and each status change sends a notification. | Keeps fee and inspection data on the right step and keeps users informed. | FR-07, FR-08, FR-09, NFR-08 |
+| Deadline calculation; scheduler/background processing; time comparison; escalation rules; controlled lifecycle state machine; role-based resolution workflow; supervisor verification | Prevents complaints remaining unresolved beyond configured limits and prevents closure without controlled resolution and verification | FR-06, FR-07, FR-08, FR-09, FR-11 (supports FR-10) |
 
 **Dependencies, failures and KPI**
 
 | Interface / Dependency | Failure / Boundary Case | Handling / Recovery | KPI |
 |---|---|---|---|
-| E1 checks the role before every action. E3 saves all changes. | Wrong role tries an action, or a save fails midway. | Action denied, or E3 rolls back. Status stays at the last valid stage. | 100% of invalid transitions blocked. 0 half-updated applications. |
-| E4 supplies the assigned officer. | Approval with a review pending, or resubmission without corrections. | Action blocked and a message shown. | 0 approvals with incomplete reviews. |
-| Notification service (in-app and SMS). | Invalid payment information, inspection not completed, or SMS unavailable. | Payment stays Pending, inspection reason is recorded, and the in-app notification is still sent. | In-app within 5 s and SMS within 60 s, for 95% of events. |
+| E1 provides assigned complaints; E4 authorizes protected actions; supervisor, field-officer and citizen interfaces; DBMS stores lifecycle and resolution data | Invalid SLA; monitoring failure; already-resolved complaint; invalid status/resolution; supervisor rejection; invalid re-open request | Flag invalid SLA; retry/log failed checks; never escalate resolved complaints; reject invalid updates; return rejected resolution for correction; reject invalid re-open request | 100% of tested SLA breaches detected and escalated correctly; 100% invalid lifecycle transitions rejected; 100% tested closures have valid supervisor verification; 100% unauthorized updates blocked |
 
-### 9.3 Engine E3 — Transaction, Data & Audit Integrity Engine
+### 9.3 Engine E3 — Hotspot Analysis & Route Optimization Engine
 
-**Owner:** Amruta Kutri (01FE24BCS275) · **Requirements:** CL-04 — FR-10, NFR-01, NFR-05, NFR-06, NFR-07
+**Owner:** Akash Hugar · **Requirements:** FR-14, FR-15 · **Area:** DSA + DBMS
 
-**Purpose.** This engine is responsible for keeping all permit records consistent, recoverable and traceable. It exists because many users update related records, such as the application, review, payment and inspection, and a failure in the middle must not leave partial data. It solves the problem of incomplete or conflicting records by saving related changes as one unit, rejecting records that point to a missing application and handling simultaneous updates safely. It also keeps older document versions and records every important action in an audit trail that cannot be edited.
+**Purpose.** Uses complaint location data for spatial analysis and field planning. It identifies areas with high concentrations of complaints and generates efficient visit orders when an officer has multiple assigned complaints. The two location-based responsibilities are combined because both depend on complaint coordinates and spatial/graph processing.
 
 **Boundary**
 
-| Primary Responsibility | Owns | Does NOT Own |
-|---|---|---|
-| Keep related records consistent, recoverable and traceable. | Atomic saving with rollback, foreign-key checks, safe concurrent updates, recovery after failure, document versions, append-only audit trail. | Role checks (E1), stage rules and decisions (E2), officer assignment and reports (E4), screen design. |
+| Owns | Does NOT Own |
+|---|---|
+| Spatial grouping/cells and complaint counts; hotspot results; selected complaint locations for routing; route order and calculated distance/cost where available | Complaint intake and assignment (E1); SLA and resolution workflow (E2); user authentication and access control (E4) |
 
 **Inputs, outputs and state**
 
 | Inputs / Trigger | Outputs / Result | State / Data Owned |
 |---|---|---|
-| Save or update requests from E2 and E4, including application, review, payment and inspection records. | Saved record, or rolled-back result with an error. | Application, review, payment and inspection records. |
-| Document uploads and resubmissions. | New document version stored, earlier versions kept. | Documents and their versions. |
-| Important action events with the user ID from E1. | Audit record with user ID, action, date and timestamp. | Audit log. |
+| Complaint latitude/longitude, category, status, assigned complaint locations, officer start location, road/network data | Location-based counts, hotspot areas, optimized visit order, route distance/travel cost where available | Spatial groups/cells, counts, hotspot information, selected locations, route order and cost |
 
 **Core mechanism**
 
 | Mechanism / Rule | Why It Is Needed | Requirements |
 |---|---|---|
-| Atomic transactions with rollback and recovery on restart. | A failed save never leaves a partial record, and saved data survives a failure. | NFR-05 |
-| Foreign-key checks and locking for concurrent updates. | Rejects records with a missing application ID and stops two users overwriting each other. | NFR-07 |
-| Append-only audit records with 4 fields (user ID, action, date, timestamp), plus document version numbers. | Keeps a trace of every action and every document version. | FR-10, NFR-06, FR-04 |
+| Spatial bucketing + Hash Map + counting/Top-K + DBMS aggregation for hotspots; graph representation + Dijkstra for shortest paths; TSP-like visit ordering; 2-Opt heuristic for practical route improvement | Identifies recurring high-complaint areas and reduces unnecessary travel when several complaints are handled in one visit | FR-14, FR-15 |
 
 **Dependencies, failures and KPI**
 
 | Interface / Dependency | Failure / Boundary Case | Handling / Recovery | KPI |
 |---|---|---|---|
-| E2 and E4 send save requests. E1 supplies the user ID. | A save fails midway, or the system crashes. | Change rolled back; system recovers on restart with saved records intact. | Recovery within 10 s with no lost records. |
-| E2 and E4 send records linked to an application. | Application ID does not exist, or two users edit the same record. | Save rejected with an error, or second user gets a conflict message. | 0 records saved without a valid application ID. |
-| All engines send events to be audited. | An audit entry is missing a field, or someone tries to edit or delete it. | Entry rejected; audit records cannot be changed. | 100% of audit records have all 4 fields. 95% of requests within 3 s at 50 users. |
+| Consumes complaint/location data from E1 and assignment/status data from E1/E2; uses DBMS, road/network data and the field-officer interface | Missing/invalid location; unreachable location; unavailable network data; too many locations | Flag/exclude invalid location; report unreachable location; report network-data failure; use practical route heuristic | ≥95% correct hotspot results against defined test datasets; ≥95% of valid route test cases produce feasible visit orders within the acceptable route distance/cost range |
 
-### 9.4 Engine E4 — Assignment, Routing & Workload Engine
+### 9.4 Engine E4 — Identity, Role & Access Control Engine
 
-**Owner:** Sanmathi Hegde (01FE24BCS269) · **Requirements:** CL-05 — FR-03, FR-11
+**Owner:** Sandeepgouda Goudar · **Requirements:** FR-01, FR-12, NFR-02, NFR-03, NFR-06
 
-**Purpose.** This engine is responsible for choosing the right officer for each application and reporting on workload and processing time. It exists because applications can stall when no one knows who should handle them, or when a few officers get all the work. It solves the problem of wrong or delayed assignment by matching each application to an eligible officer by type, zone and stage, and picking the one with the lowest workload. An officer with the right permission can override the choice, and an application left unreviewed too long is flagged. The engine also turns assignment and processing data into reports.
+**Purpose.** Authenticates users and determines what functions they may access, supporting role-based access for citizens, field officers, supervisors and administrators. It protects credentials and records important access-related operations for traceability, and provides the authorization boundary used by the other engines.
 
 **Boundary**
 
-| Primary Responsibility | Owns | Does NOT Own |
-|---|---|---|
-| Choose the right officer for each application and report on workload and processing time. | Routing rules by type and zone, workload-based assignment, officer override and reassignment, overdue flagging, workload and processing-time reports. | Application status and decisions (E2), role checks (E1), saving data and audit records (E3), notifications (E2). |
+| Owns | Does NOT Own |
+|---|---|
+| User authentication; role and permission mappings; authorization decisions; secure password handling; authentication/session information; access and authorization audit records | Complaint processing and assignment (E1); SLA/resolution workflow (E2); hotspot and route processing (E3) |
 
 **Inputs, outputs and state**
 
 | Inputs / Trigger | Outputs / Result | State / Data Owned |
 |---|---|---|
-| Request from E2 for an assignee, with application type, zone and stage. | Assigned officer, or an unassigned queue entry if none is eligible. | Assignment records and routing rules. |
-| Override or reassignment request from a Department Officer or Admin. | Updated assignment with the change recorded. | Reassignment history and officer workload counts. |
-| Report request, with date range or filters. | Workload and processing-time reports, and a flag for overdue applications. | Report results built from stored data. |
+| Login credentials, user/role information, protected-function access requests | Authentication result, session/token, authorization decision (ALLOW / DENY), audit information | User accounts, role/permission mappings, authentication/session information, audit records |
 
 **Core mechanism**
 
 | Mechanism / Rule | Why It Is Needed | Requirements |
 |---|---|---|
-| Rule matching by type, zone and stage to find eligible officers. | Applications reach an officer who can handle them. | FR-03 |
-| Priority queue that picks the least-loaded eligible officer, with officer override. | Keeps workload even and still lets an officer correct the choice. | FR-03 |
-| Aggregation of assignment and processing-time data, and a check for applications unreviewed past a set time. | Shows bottlenecks and finds stalled applications. | FR-11, FR-03 |
+| Authentication + role-based access control (RBAC) + secure password hashing + authorization checks + audit logging | Different actors have different permissions, so access must be controlled consistently across every protected operation | FR-01, FR-12, NFR-02, NFR-03, NFR-06 |
 
 **Dependencies, failures and KPI**
 
 | Interface / Dependency | Failure / Boundary Case | Handling / Recovery | KPI |
 |---|---|---|---|
-| E2 asks E4 for an assignee. E4 returns the officer and never changes the status. | No eligible officer is available. | Application goes to an unassigned queue and a Department Officer is alerted. | 100% of applications assigned to an eligible officer. |
-| E1 checks permission for override. | Application already assigned (UC-04), or an unauthorized override. | System asks for confirmation before reassigning, or denies the override. | Workload difference between officers within 2 applications in test data. |
-| E3 supplies and stores the data. | Missing data for a report. | Report shows the available data and marks the gap. | Report figures match manual counts. |
+| DBMS stores user and role data; web interfaces invoke authentication/authorization; E1/E2/E3 rely on E4 for protected operations | Invalid credentials/session; insufficient permission; invalid role | Reject/re-authenticate; deny the protected operation; deny access and record important access events | 100% of protected operations require authentication and authorization; 100% of unauthorized role-access attempts rejected; 100% of tested access/authorization operations contain required audit information |

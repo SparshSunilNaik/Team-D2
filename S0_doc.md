@@ -1,6 +1,6 @@
-# Building Permit Approval and Inspection Management System
+# Civic Issue Reporting and Resolution Management System
 
-**Role-Based Building Permit Approval & Inspection Workflow Management System — Chicago Building Permits Dataset**
+**Data-Driven, Role-Based Workflow Management System**
 Gate 0 / Stage S0 — Problem Definition & Need Identification
 
 ---
@@ -9,23 +9,23 @@ Gate 0 / Stage S0 — Problem Definition & Need Identification
 
 | Item | Details |
 |---|---|
-| Team No. | 2 |
+| Team No. | 4 |
 | Theme No. | 1 |
-| Artefact Name | Building Permit Approval and Inspection Management System |
-| Dataset | Chicago Building Permits Dataset |
-| Guide | Sunil Gurlahosur |
+| Artefact Name | Civic Issue Reporting and Resolution Management System |
+| Dataset | NYC 311 Open Data (NYC Open Data Portal) |
+| Guide | Sunil V G |
 | Department | Computer Science & Engineering |
 
 **Team Members**
 
-| Name | USN | Roll No. |
-|---|---|---|
-| Sanmathi Hegde | 01FE24BCS269 | 407 |
-| Annapurna Boratti | 01FE24BCS283 | 420 |
-| Amruta Kutri | 01FE24BCS275 | 412 |
-| Akhil Teja | 01FE24BCS284 | 421 |
+| Name | Roll No. |
+|---|---|
+| Sandeepgouda Goudar | 403 |
+| Pavitra Adur | 408 |
+| Akash Hugar | 409 |
+| Lahari Banakar | 411 |
 
-**Order of work (7 steps):** (1) The Problem → (2) Who Is Involved → (3) How It Works Today → (4) Problem & Goals → (5) What's Included → (6) Can We Do This → (7) What Could Go Wrong. The sequence: understand the problem and its people, map the current process, translate observations into needs and objectives, then bound the scope and check feasibility.
+**Order of work (7 steps):** (1) The Problem → (2) Who Is Involved → (3) How It Works Today → (4) Problem & Goals → (5) What's Included → (6) Can We Do This → (7) What Could Go Wrong.
 
 ---
 
@@ -35,39 +35,72 @@ Gate 0 / Stage S0 — Problem Definition & Need Identification
 
 | # | Course | Core Concepts |
 |---|---|---|
-| 1 | Data Structures & Algorithms (DSA) | Searching, sorting, data organization, workflow/state handling |
-| 2 | Operating Systems (OS) | Process management, concurrency, resource management |
-| 3 | Database Management Systems (DBMS) | ER modelling, normalization, transactions, constraints, indexing |
-| 4 | Web Technology | REST APIs, client-server architecture, HTTP methods, authentication, frontend-backend integration |
-| 5 | Software Engineering | Requirements, modular design, workflow modelling, testing and validation |
-| 6 | Computer Networks | Client-server communication, HTTP/HTTPS, API communication |
+| 1 | DSA | Priority queue for urgent complaints, hashing for duplicate detection, graphs/Dijkstra for route optimization |
+| 2 | DBMS | Store citizens, complaints, departments, officers, locations and status history efficiently |
+| 3 | Computer Networks | Client-server communication through HTTP/HTTPS, REST APIs |
+| 4 | OOPS | Model entities such as Citizen, Officer, Complaint and Department as objects |
+| 5 | Software Engineering | Requirement analysis, modular architecture, workflows, testing and maintainability |
+| 6 | Web Technology | Role-based dashboards, complaint submission, authentication and responsive interfaces |
 
 ### 1.2 Existing Problem / Current Situation
 
-Building permit applications pass through multiple stakeholders and stages, including submission, verification, reviews, corrections, approvals and inspections. Without a centralized workflow, tracking application status, assigning applications, managing resubmissions and controlling user actions becomes difficult. This can result in delays, poor visibility of progress and reduced accountability.
+Civic issues such as garbage accumulation, noise, illegal parking, damaged roads, water leakage and streetlight failures are continuously reported by citizens. Existing channels mainly focus on *collecting* complaints, but reporting an issue does not ensure timely or efficient resolution.
+
+- Citizens report through multiple channels (phone calls, websites, mobile platforms).
+- Complaints are handled separately by different departments, making coordination difficult.
+- Manual classification and assignment can lead to delays or incorrect routing.
+- All complaints may get the same priority even when severity and impact differ.
+- Repeated complaints about the same issue create duplicate work.
+- Citizens have limited visibility into progress and expected resolution time.
+- Authorities lack a unified view of hotspots, department workload and SLA delays.
+- As volume grows, manual monitoring and resource allocation become difficult.
 
 ### 1.3 Who Is Affected?
 
-- **Property Owners / Applicants** – face delays, repeated corrections, and difficulty tracking application status.
-- **Contractors / Architects** – need to coordinate documents, corrections, and approvals across departments.
-- **Permit Reviewers, Zoning Officers, Department Officers (Municipal / Planning Departments)** – handle multiple applications, reviews, and approval workflows.
-- **Building Inspectors** – need accurate application details and inspection schedules.
-- **Finance Officers, Administrators, Public Users**
-- **Government Authorities** – require transparency, accountability and proper monitoring of the overall process.
+- **Citizens** – difficulty reporting issues, tracking complaints and getting timely resolution.
+- **Field Officers** – receive complaints without effective prioritization, so it is hard to know what needs immediate attention.
+- **Government Departments** – high complaint volumes, workload imbalance and inefficient manual assignment.
+- **Supervisors** – difficulty monitoring pending complaints, SLA breaches and officer performance.
+- **Municipal Administration** – lacks a unified view of hotspots, recurring issues and overall service performance.
 
-### 1.4 Why the Existing Approach Is Inadequate
+### 1.4 Pain Points
 
-- **No centralized tracking** — difficult to know the current status of an application.
-- **Manual application assignment** — applications may be difficult to assign to the appropriate officer.
-- **Difficult correction handling** — corrections and resubmissions are harder to manage and track.
-- **Uncontrolled access** — without role-based controls, unauthorized actions may occur.
-- **Limited process visibility** — progress across multiple reviews, approvals and inspections is difficult to monitor.
-- **Poor accountability** — tracking who performed important actions across the workflow can be difficult.
+- **Complaint overload** – growing numbers and varieties of complaints make manual management difficult.
+- **No effective prioritization** – not every complaint has the same urgency or impact.
+- **Delayed resolution** – complaints may go unattended without deadline monitoring and escalation.
+- **Duplicate complaints** – repeated complaints about the same issue add unnecessary workload.
+- **Lack of visibility** – authorities need better visibility into workload, hotspots, recurring issues and resolution performance.
 
-### 1.5 Evidence That This Problem Is Real
+### 1.5 Why the Existing Approach Is Inadequate
 
-**Chicago Building Permits Dataset** — real-world historical permit records used to study the building permit process.
-Link: <https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu/about_data>
+- Manual classification can cause incorrect or delayed department assignment.
+- Complaints are treated alike, without prioritization by severity, public impact or urgency.
+- Repeated complaints are handled as separate cases.
+- Manual assignment ignores officer workload, availability or proximity.
+- Limited SLA-based monitoring makes it hard to spot complaints at risk of delay.
+- Citizens lack transparent, real-time visibility into the resolution process.
+- Authorities lack a unified view of hotspots, recurring issues and department workload.
+- Increasing volumes make manual monitoring and resource allocation inefficient.
+
+### 1.6 Evidence That This Problem Is Real
+
+Analysis of 10,000 complaints from the NYC 311 dataset:
+
+- **42.7%** of complaints were noise-related — strong concentration in specific issue categories.
+- **Brooklyn** accounted for about **31%** of all complaints — geographic concentration.
+- Complaint volume rose in the late evening, with **22:00** the peak hour.
+- Workload varied greatly between departments — need for better workload management.
+- About **34.9%** of records had no recorded closure date — need to track unresolved complaints.
+- Multiple complaints occur around the same issue type/location — need for duplicate / recurring-issue detection.
+
+**Takeaway:** civic complaints are not uniformly distributed. They concentrate by issue type, location and time, while unresolved cases and uneven departmental workloads create a need for intelligent prioritization, assignment and monitoring.
+
+### 1.7 Sources / References
+
+- NYC 311 Open Data and NYC Open Data Portal — real-world complaint patterns, categories, locations and resolution status.
+- Existing 311 civic complaint systems — reviewed for current reporting and tracking workflows.
+- Stakeholder discussions — inputs from students/citizens on difficulties in reporting and tracking issues.
+- Academic references — DBMS, DSA, Computer Networks and Software Engineering concepts behind the proposed workflow.
 
 ---
 
@@ -75,31 +108,28 @@ Link: <https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu/about
 
 ### 2.1 Stakeholder Table
 
-| Stakeholder | Role / Description | Needs & Expectations | Current Pain Points | Influence (H/M/L) |
+| Stakeholder | Role / Description | Needs & Expectations | Current Pain Points | Influence |
 |---|---|---|---|---|
-| **Property Owner (Applicant)** | Submits permit application and documents | Easy submission, status visibility, timely decisions | Difficult to track application progress and corrections | H |
-| **Contractor (Architect)** | Provides project and construction details | Clear requirements and review feedback | Repeated corrections and unclear review status | M |
-| **Permit Reviewer** | Reviews submitted application | Complete documents and organized applications | Manual review coordination and application tracking | H |
-| **Zoning Officer** | Checks zoning-related requirements | Accurate application information and clear workflow | Difficulty coordinating zoning checks with other stages | H |
-| **Building Inspector** | Performs inspections | Proper scheduling and access to application details | Inspection coordination and result tracking | H |
-| **Department Officer (Senior)** | Reviews and approves/rejects applications | Complete review information and workflow visibility | Difficult to monitor applications across stages | H |
-| **Finance Officer** | Handles permit fees/payment status | Accurate fee and payment information | Payment status may be difficult to coordinate with permit workflow | M |
-| **Admin** | Manages users, roles and permissions | Secure access and centralized user management | Managing different permissions across stakeholders | H |
-| **Public User** | Views permitted-project information where publicly available | Easy access to permitted-project information | Limited visibility of relevant public information | L |
+| **Citizens** | Report civic issues, upload evidence, track status and receive updates | Easy reporting, evidence upload, status tracking and timely updates | Delayed resolution and limited transparency | H |
+| **Field Officers** | Receive prioritized tasks, view location, update progress and resolve issues | Correctly prioritized tasks, location information, efficient task handling, easy progress updates | Inefficient task assignment and resource allocation | H |
+| **Department Officials** | Manage complaints, allocate resources and monitor department workload | Efficient complaint management, resource allocation and workload monitoring | Manual management, workload issues, inefficient resource allocation | H |
+| **Supervisors** | Monitor SLA, identify delayed issues, reassign tasks and handle escalations | SLA monitoring, identification of delays, reassignment and escalation management | Delayed issues and difficulty managing escalations | H |
+| **Government / Administration** | Analyse civic trends, identify hotspots and make data-driven resource decisions | Accurate data, trend analysis, hotspot identification, better resource decisions | Limited data-driven decision making and inefficient resource allocation | H |
+| **Admin** | Manage users, roles, departments, permissions and system configuration | Effective user/role management, permissions and configuration | Difficulty managing roles, departments and configuration | H |
 
 ### 2.2 Primary vs. Secondary Stakeholders
 
-*Primary:* directly use or are directly affected by the system. *Secondary:* indirectly involved (e.g., administrators, oversight bodies).
-
-| Primary Stakeholders | Secondary Stakeholders |
+| Primary (directly use / affected) | Secondary (indirectly involved) |
 |---|---|
-| Property Owner (Applicant), Contractor (Architect), Permit Reviewer, Zoning Officer, Building Inspector, Department Officer (Senior), Finance Officer, Admin, Public User | — |
+| Citizens – report issues and track resolution | Government / Municipal Administration – policy and resource planning |
+| Field Officers – receive and resolve assigned issues | Data / Analytics Teams – analyze trends and civic hotspots |
+| Department Officials – manage complaints and workload | Oversight / Regulatory Bodies – monitor service performance and accountability |
+| Supervisors – monitor SLA, progress and escalations | |
+| System Administrators – manage users, roles and configuration | |
 
 ### 2.3 Key Insight Summary
 
-The stakeholder analysis shows that property owners, contractors, reviewers, zoning officers, inspectors, department officers and finance officers are directly involved in the permit process and therefore have the highest need for clear workflow coordination. Their main needs are better status visibility, organized application handling, timely reviews, and coordination across different stages.
-
-The system must also provide secure role-based access for administrators and appropriate access to publicly available information for public users. Overall, priority should be given to stakeholders who directly handle or depend on the progress of permit applications.
+The system must primarily prioritize **citizens by making civic issue reporting simple, transparent and easy to track**. Field officers and department officials need intelligent prioritization, clear task assignment and workload visibility. Supervisors require SLA monitoring, escalation mechanisms and performance insights to prevent delays. Government administrators and oversight bodies need reliable analytics to identify hotspots, allocate resources and improve overall civic service delivery.
 
 ---
 
@@ -107,41 +137,36 @@ The system must also provide secure role-based access for administrators and app
 
 ### 3.1 Current Process
 
-A building permit application begins with the property owner/applicant submitting the application and required documents, with project and construction details provided by the contractor/architect. The application then goes through document verification and departmental reviews, including zoning-related checks. If corrections are required, the application is returned for correction and resubmission before proceeding.
-
-After the required reviews are completed, the application moves toward approval/rejection and permit fee handling, followed by building inspection. Multiple stakeholders are involved at different stages, making it difficult to maintain a clear view of the application's current status, assignments, corrections and overall progress.
+A citizen identifies a civic issue and reports it through an available channel such as a website or mobile application. The complaint is recorded and reviewed, then categorized and forwarded to the concerned department. The department assigns it to an officer or field worker, who investigates and carries out the required action. The status is updated and checked by a supervisor; once the issue is considered resolved, the case is closed and the citizen may receive a notification.
 
 ### 3.2 Step-by-Step Workflow Table
 
 | Step | Actor / Role | Action Performed | Tool / System Used | Pain Point Observed |
 |---|---|---|---|---|
-| 1 | Applicant / Property Owner | Prepares and submits building permit application and required documents | City of Chicago permit services / online application process | Multiple requirements must be prepared correctly |
-| 2 | Contractor / Architect | Provides project plans, construction details and supporting information | Permit application / plan submission process | Incomplete or incorrect information may require corrections |
-| 3 | Department of Buildings / Permit Reviewer | Reviews application and submitted plans | Chicago Department of Buildings permit-review process | Review may involve multiple requirements and stages |
-| 4 | Zoning / Relevant Review Staff | Checks applicable zoning and other departmental requirements | City departmental review process | Coordination between different review requirements |
-| 5 | Applicant / Contractor | Provides corrections or additional information when requested | Permit application / resubmission process | Revisions can extend processing time |
-| 6 | Department of Buildings | Completes review and approves or rejects the application | Chicago permit system/process | Applicant needs visibility into application progress |
-| 7 | Applicant / Finance | Completes required permit fee/payment requirements | City payment / permit process | Payment status must be coordinated with permit processing |
-| 8 | Building Inspector | Conducts required inspection(s) during construction | Chicago building inspection process | Inspection scheduling and results involve another stage of the process |
+| 1 | Citizen | Reports a civic issue (garbage, noise, illegal parking, damaged roads, water leakage, streetlight failure) | Civic issue reporting system | Complaints may not be efficiently resolved after reporting |
+| 2 | Citizen | Uploads evidence and provides complaint details | Complaint submission interface | Existing systems mainly focus on collecting complaints |
+| 3 | System | Analyzes the complaint and determines priority from severity, impact, urgency and historical patterns | Data-driven prioritization / priority queue | Manual prioritization causes delays and incorrect priorities |
+| 4 | System / Department Official | Routes the complaint to the appropriate department | Role-based workflow system | Incorrect or inefficient task assignment |
+| 5 | Department Official | Allocates the task to a field officer based on resource availability | Department management system | Inefficient resource allocation and workload management |
+| 6 | Field Officer | Receives the prioritized task and views the issue location | Officer dashboard / location system | Officers may not receive efficiently prioritized tasks |
+| 7 | Field Officer | Works on the issue and updates its progress | Workflow / status tracking system | Difficulty monitoring complaint progress |
+| 8 | Supervisor | Monitors SLA and identifies delayed complaints | SLA monitoring system | Delayed issues may not be identified quickly |
+| 9 | Supervisor | Reassigns delayed tasks and handles escalations | Escalation / workflow system | Lack of integrated escalation management |
+| 10 | Citizen | Tracks complaint status and receives updates | Complaint tracking interface | Limited transparency for citizens |
+| 11 | Government / Administration | Analyzes complaint trends and identifies hotspots | Data analytics / reporting system | Limited data-driven decision making |
+| 12 | Government / Administration | Uses insights for resource and operational decisions | Analytics dashboard | Difficulty making effective resource-allocation decisions |
 
-### 3.3 AS-IS Workflow Diagram
+### 3.3 Workflow Diagram
 
-Swim-lane lanes: Property Owner/Applicant → Contractor/Architect → Permit Reviewer → Zoning/Department Officers → Department Officer (Senior) → Finance Officer → Building Inspector. A "Corrections required?" decision loops back through correction/resubmission and re-review; key pain points are noted below the diagram.
+![Workflow diagram](S0_doc_media/civic_as_is_workflow.jpg)
 
-![AS-IS Workflow](S0_doc_media/as_is_workflow.jpg)
-
-*Fig 1: AS-IS Workflow — how the system works currently.*
-
-**Key pain points shown on the diagram:** difficult to track application status · poor coordination between stakeholders · correction/resubmission tracking is manual · assignment of applications is unclear · limited visibility and accountability.
+Flow: Citizen → Report Complaint → Validate Data → ML Classification (Category, Location) → Priority Engine (Severity, SLA, Hotspot) → Priority Score → Priority Queue → Department Routing → Role-Based Assignment → Field Officer → Resolve / Escalate → Supervisor → Verify → Citizen → Close.
 
 ### 3.4 Bottlenecks & Inefficiencies Identified
 
-- **Difficult status tracking** across different permit stages.
-- **Unclear application assignment** to the appropriate officers.
-- **Manual correction and resubmission tracking** can cause delays.
-- **Poor coordination** among multiple departments and stakeholders.
-- **Limited workflow visibility** makes overall progress difficult to monitor.
-- **Weak accountability** for actions performed during the process.
+1. **Manual classification & routing** — complaint → manual review → department assignment causes delays and routing errors.
+2. **Inefficient assignment** — officers receive work without regard to workload, skills or proximity.
+3. **Limited visibility & analytics** — citizens lack transparent tracking; authorities lack a unified view of hotspots, backlog and workload.
 
 ---
 
@@ -151,141 +176,169 @@ Swim-lane lanes: Property Owner/Applicant → Contractor/Architect → Permit Re
 
 | # | Observed Problem | Evidence / Source | Underlying Need | Linked Stakeholder(s) |
 |---|---|---|---|---|
-| 1 | Difficult to track application status | Project-identified workflow gap | Centralized status tracking | Applicant, Contractor, Reviewer |
-| 2 | Difficult application assignment | Project-identified workflow gap | Structured assignment | Reviewer, Zoning Officer, Admin |
-| 3 | Corrections/resubmissions are difficult to manage | Project-identified workflow gap | Correction & resubmission tracking | Applicant, Contractor, Reviewer |
-| 4 | Multiple stakeholders must coordinate | Stakeholder/process analysis | Role-based workflow coordination | All processing roles |
-| 5 | Risk of unauthorized actions | Project-identified access-control gap | RBAC & permissions | Admin, Officers, Reviewers |
-| 6 | Limited process visibility/accountability | Proposed workflow requirements | Audit logs, notifications & monitoring | Admin, Department Officer |
+| 1 | Complaints are manually classified and assigned | Current civic complaint workflow | Automatic classification and department assignment | Citizens, Department Officials |
+| 2 | Urgent complaints may not be handled first | Different complaints have different severity and impact | Priority-based complaint handling | Citizens, Field Officers, Supervisors |
+| 3 | Duplicate/repeated complaints increase workload | Multiple complaints can refer to the same issue/location | Duplicate detection and complaint grouping | Department Officials, Field Officers |
+| 4 | Delayed complaints are difficult to monitor | Lack of effective SLA tracking | SLA monitoring and automatic escalation | Supervisors, Department Officials |
+| 5 | Citizens have limited visibility into progress | Status updates may not be centralized | Real-time complaint tracking and transparency | Citizens, Officers |
+| 6 | Hotspots and workload are difficult to identify | Dataset shows geographic and departmental concentration | Analytics for hotspots, workload and resource planning | Government, Supervisors |
 
 ### 4.2 Prioritization
 
-| # | Underlying Need | Justification |
+| Priority | Need | Justification |
 |---|---|---|
-| 1 | Centralized application status tracking | Most important because stakeholders need clear visibility of where each permit application currently stands. |
-| 2 | Role-based workflow coordination | Multiple stakeholders handle different stages, so proper coordination is essential for the process to move correctly. |
-| 3 | Correction & resubmission tracking | Corrections can cause delays if requests and revised submissions are not properly tracked. |
-| 4 | Structured application assignment | Applications need to reach the appropriate reviewer or officer to avoid delays and workflow confusion. |
-| 5 | RBAC & permission management | Ensures users can perform only the actions appropriate to their roles and reduces unauthorized actions. |
-| 6 | Audit logs, notifications & monitoring | Improves accountability and keeps stakeholders informed, but depends on the core workflow and tracking being established first. |
+| 1 | Intelligent prioritization | Urgent and high-impact issues should be handled first instead of treating every complaint equally. |
+| 2 | SLA monitoring & escalation | Prevents complaints exceeding resolution deadlines and ensures delayed cases get attention. |
+| 3 | Correct department & officer assignment | Complaints reach the appropriate team quickly, reducing response delays. |
+| 4 | Workload & resource management | Distributes complaints among departments/officers and avoids overloading teams. |
+| 5 | Location & hotspot analysis | Identifies recurring/high-volume areas and supports resource planning. |
+| 6 | Citizen tracking & transparency | Keeps citizens informed and improves trust in the system. |
+| 7 | Duplicate/repeated complaint detection | Reduces redundant work by identifying complaints on the same issue. |
 
 ### 4.3 Problem Statement
 
-> Building permit applications involve multiple stakeholders and stages, creating challenges in coordinating approvals and inspections, tracking application status, managing workflow activities, and maintaining accountability throughout the process.
+Citizens report a wide range of civic issues every day, but as complaint volume grows it becomes difficult to determine which issues need immediate attention, which department or personnel should handle them, and which complaints are approaching delayed resolution. This can lead to critical issues being overlooked, repeated complaints creating additional workload, and resources being distributed inefficiently. The computing challenge is to manage this continuous flow of diverse civic complaints in a way that reflects their urgency, impact, location, responsibility and time sensitivity.
+
+*Formal statement:* "To develop a role-based civic issue management system that intelligently prioritizes complaints based on severity, impact and urgency, assigns them to appropriate departments/personnel, monitors SLAs and escalations, and tracks the complete complaint lifecycle for efficient and timely resolution."
 
 ### 4.4 Project Objectives
 
-1. **To implement role-based access control** so that each stakeholder can perform only the actions permitted for their assigned role.
-2. **To manage the complete building permit workflow** from application submission through review, approval/rejection, fee handling, and inspection.
-3. **To provide centralized application status tracking** so that the current stage and progress of each permit application can be viewed by authorized users.
-4. **To manage corrections and resubmissions** by recording review feedback, revised submissions, and their corresponding workflow status.
-5. **To maintain an auditable record of workflow activities** including application updates, reviews, approvals/rejections, and inspection outcomes.
-6. **To provide workflow reports and analytics** using the Chicago Building Permits dataset to support monitoring and analysis of permit-related activities.
+1. Prioritize complaints based on severity, public impact, complaint age, location and time sensitivity.
+2. Route complaints to the appropriate department and assign them to suitable personnel based on responsibility and workload.
+3. Provide role-specific dashboards and analytics that improve transparency for citizens and support data-driven decisions by officers and administrators.
+4. Monitor complaint progress and resolution deadlines, with escalation of cases that remain unattended.
 
 ---
 
 ## 5. What's Included (Step 5 of 7)
 
-### 5.1 Proposed Solution & TO-BE Workflow
+### 5.1 Proposed Solution & Technical Workflow
 
-A secure, role-based web system to manage building permits from application to completion. It automates verification, assignment, reviews, corrections, approvals, payments, and inspections through a defined workflow. RBAC, status tracking, notifications, and audit logs ensure secure and transparent processing.
+Citizens report an issue with description, category, photo and location. The system validates the data, classifies the complaint (category and location), and a **priority engine** computes a score from severity, SLA time urgency and hotspot factors. Complaints enter a priority queue, are routed to the correct department, and assigned to a field officer. The officer accepts and resolves (or escalates if unresolved); the supervisor monitors, escalates and verifies; the citizen receives updates and the case is closed.
 
-![TO-BE Workflow](S0_doc_media/to_be_workflow.png)
+![Technical workflow, part 1](S0_doc_media/civic_to_be_part1.png)
 
-*Fig 2: TO-BE Workflow Diagram* — Application Submitted → Document Verification → Application Assigned → Technical/Building Review → Zoning Review → Other Department Reviews → **Approved?** — *No:* Correction Required → Resubmission → back to Document Verification (resubmission cycle); *Yes:* Fee Payment → Permit Issued → Construction/Work Execution → Inspection Scheduled → Inspection Conducted → Final Inspection → Project Closed → End.
+![Technical workflow, part 2](S0_doc_media/civic_to_be_part2.png)
 
-### 5.2 In-Scope
+### 5.2 Applications
+
+- Municipal Corporations — garbage, road, drainage and water-related issues.
+- Public Utilities — streetlight and electricity complaints.
+- Traffic Management — illegal parking and road-related traffic issues.
+- Water & Sanitation Departments — water leakage, drainage and waste management.
+- Public Works Departments — potholes, damaged roads and public infrastructure.
+- Government Administration — hotspot analysis and resource planning.
+- Smart City Operations — centralized monitoring and data-driven decisions.
+
+### 5.3 In-Scope
 
 | # | In-Scope Item |
 |---|---|
-| 1 | User & Role Management |
-| 2 | Building Permit Application Management |
-| 3 | Permit Approval Workflow |
-| 4 | Inspection Management |
-| 5 | Status Tracking, Notifications & Audit Logs |
-| 6 | Reports & Analytics |
+| 1 | User registration, login and role-based authentication |
+| 2 | Citizen complaint reporting with description, category, photo and location |
+| 3 | Automatic complaint classification and department identification |
+| 4 | Priority score calculation using severity, impact, complaint age, SLA and hotspot factors |
+| 5 | Priority queue / max heap for handling high-priority complaints first |
+| 6 | Complaint status tracking: Submitted → Assigned → In Progress → Resolved → Closed |
+| 7 | Supervisor dashboard for monitoring complaints, workload and escalations |
+| 8 | Citizen notifications and resolution verification |
+| 9 | Duplicate/repeated complaint identification based on category and location |
+| 10 | Analytics for workload, trends and hotspots |
 
-### 5.3 Out-of-Scope
+### 5.4 Out-of-Scope
 
 | # | Out-of-Scope Item | Reason for Exclusion |
 |---|---|---|
-| 1 | Actual legal issuance of Chicago building permits | Academic workflow system; cannot replace the official government permit issuance process. |
-| 2 | Real financial/payment processing | The system may record payment/fee status, but will not process real monetary transactions. |
-| 3 | Real government authentication or identity verification | Implementing official government authentication is outside the semester project's scope. |
-| 4 | Legally binding approval or rejection of permits | Decisions made within the prototype carry no legal or regulatory authority. |
-| 5 | Integration with live Chicago government systems | Direct integration with production municipal systems is beyond the project's technical and access constraints. |
-| 6 | Physical inspection activities | The system records/tracks inspection information, but actual inspections remain outside the software's scope. |
+| 1 | Physical execution of civic work | The system manages and tracks complaints; it does not repair roads, fix leaks, collect garbage, etc. |
+| 2 | Emergency services / real-time emergency response | Focus is routine civic complaints and workflow management. |
+| 3 | Financial transactions or payments | Payment processing and financial management are not part of the scope. |
+| 4 | Government policy making | The system provides insights for decisions; it does not create policy. |
+| 5 | Procurement and inventory management | Resource allocation is handled, but not purchasing materials or inventory. |
+| 6 | External social-media complaint management | The system uses its own complaint workflow, not external platforms. |
+| 7 | Automatic physical monitoring (CCTV, drones, IoT) | Reporting is complaint-based; no automatic issue detection. |
+| 8 | Non-civic complaints | Intended only for civic issues (garbage, noise, illegal parking, damaged roads, water leakage, streetlight failures). |
+| 9 | Direct control of municipal infrastructure; integration with external government systems; advanced predictive forecasting | Beyond the project's technical and access constraints. |
 
-### 5.4 Assumptions
+### 5.5 Assumptions
 
-- The Chicago Building Permits dataset is available and suitable for project analysis and testing.
-- Users will have valid accounts and be assigned appropriate roles and permissions.
-- Workflow activities such as reviews, approvals, corrections, payments, and inspections can be simulated within the system.
-- The required development tools, database, and computing resources will be available throughout the semester.
+- Citizens have a smartphone or web-enabled device and an internet connection.
+- Users provide reasonably accurate information, including issue description and location.
+- Each civic issue can be associated with a responsible department or service category.
+- Departments have predefined roles, responsibilities and resolution time targets (SLA).
+- Officers update complaint status as work progresses.
+- Administrators manage users, departments, roles and system configuration.
+- The system has access to complaint data with category, location, status and timestamps.
 
-### 5.5 Constraints
+### 5.6 Constraints
 
-- Limited project time during the semester.
-- Limited team size and development resources.
-- Dependence on the available Chicago Building Permits Dataset.
-- No access to live Chicago government systems.
-- Real payments and legally binding permit decisions are not supported.
+- Limited team size and development time.
+- Limited availability of historical complaint data.
+- Technology and infrastructure limitations.
+- Dependence on accurate user-provided complaint information.
+- Limited real-time information, system scalability and algorithm complexity.
+- Dependence on user participation.
 
 ---
 
 ## 6. Can We Do This? (Step 6 of 7)
 
-### 6.1 Proposed Tech Stack
+### 6.1 Technical Feasibility — Feasible
 
-| Layer | Technology |
+| Aspect | Assessment | Justification |
+|---|---|---|
+| Frontend | Feasible | React / HTML / CSS / JavaScript can build separate dashboards for citizens, officers, supervisors and administrators. |
+| Backend | Feasible | Node.js with Express can provide REST APIs for complaints, users, departments, assignments and status updates. |
+| Database | Feasible | MySQL/PostgreSQL can store users, complaints, departments, locations and status history. |
+| Authentication & RBAC | Feasible | JWT-based authentication and role-based access control restrict features by role. |
+| Complaint Classification | Feasible | Rule-based classification can be implemented initially. |
+| Priority Engine | Feasible | A weighted scoring algorithm can compute priority from severity, impact, age, SLA and hotspot factors. |
+| DSA Implementation | Feasible | Priority queue/max heap, hash maps, sorting and graph algorithms are implementable in standard languages. |
+| Location Services | Feasible | A Maps API and browser geolocation can capture and visualize complaint locations. |
+| Route Optimization | Feasible | Dijkstra/2-Opt for a limited number of complaints; large-scale optimization is future scope. |
+| Real-Time Updates | Feasible | WebSockets can provide live status updates and notifications. |
+
+### 6.2 Operational Feasibility — Feasible
+
+- **Citizen adoption** — simple interface with description, photo and location.
+- **Ease of use** — simple dashboards and clear workflows need minimal training.
+- **Role-based access** — each stakeholder sees only role-relevant features.
+- **Department workflow** — complaints are automatically classified and routed.
+- **Officer usage** — officers see assigned complaints, priority, location and required action.
+- **Supervisor monitoring** — pending complaints, workload, SLA deadlines and escalations are visible.
+- **Citizen tracking** — status from submission to resolution with updates.
+- **Reduced manual work and accountability** — automation plus status history shows who handled what and when.
+- **Scalability** — start with one department or local area, then expand.
+
+### 6.3 Time Feasibility — Feasible (15 weeks)
+
+| Phase | Duration |
 |---|---|
-| Frontend | React |
-| Backend | Spring Boot + Spring Data JPA |
-| Database | PostgreSQL |
-| Authentication & Security | Spring Security + JWT |
-| ML/AI Services | Python + FastAPI |
-| API Documentation | Swagger |
-| Testing | JUnit + Mockito |
-| API Integration | Axios |
-| Version Control | Git + GitHub |
+| Requirement analysis & problem definition | 1–2 weeks |
+| System design & database design | 2 weeks |
+| Frontend development | 3 weeks |
+| Backend & database development | 3 weeks |
+| Priority, assignment, duplicate detection & workflow features | 2 weeks |
+| Testing & bug fixing | 2 weeks |
+| Integration, documentation & final presentation | 1 week |
 
+The four-member team can split work across analysis, design, frontend, backend, database, testing and documentation. The core complaint workflow is built first; duplicate detection, route optimization and analytics follow in the remaining time.
 
-### 6.2 Technical Feasibility — Feasible
+### 6.4 Resource Feasibility — Feasible
 
-| Aspect | Assessment | Justification |
-|---|---|---|
-| Technology Stack | Feasible | React, Spring Boot + Spring Data JPA, PostgreSQL and Python/FastAPI are suitable for the proposed system. |
-| Development Skills | Feasible | The required skills can be acquired and applied within the project duration. |
-| Database & Dataset | Feasible | The database can manage workflow data and the Chicago Building Permits Dataset can support analysis. |
-| System Integration | Feasible | React can communicate with the Spring Boot backend through REST APIs. |
+- **Team:** 4 members can divide frontend, backend, database, UI/UX and algorithm work.
+- **Hardware:** standard laptops/desktops with internet.
+- **Data:** civic complaint datasets for analysis, testing and developing prioritization/hotspot algorithms.
+- **Software:** open-source React, Node.js/Express, PostgreSQL/MySQL and Python.
+- **APIs:** mapping/location services for geolocation and route planning.
+- **Skills:** web development, DBMS, DSA, Computer Networks and basic data analytics.
 
-### 6.3 Operational Feasibility — Feasible
+### 6.5 Economic Feasibility — Feasible
 
-| Aspect | Assessment | Justification |
-|---|---|---|
-| User Roles | Feasible | Different stakeholders can use the system according to their assigned roles and permissions. |
-| Workflow Usage | Feasible | The system supports the major permit activities through a structured workflow. |
-| User Adoption | Feasible | Centralized status tracking makes it easier for users to monitor application progress. |
+Low-cost: open-source technologies, public datasets and freely available development tools.
 
-### 6.4 Time Feasibility — Feasible
+### 6.6 Overall Feasibility Conclusion — GO WITH MODIFICATIONS
 
-| Aspect | Assessment | Justification |
-|---|---|---|
-| 15-Week Timeline | Feasible | The defined scope can be completed within the semester by developing the core workflow first and adding supporting features afterward. |
-| Development Phases | Feasible | Requirements, design, implementation, testing and final demonstration can be completed in planned stages. |
-| Scope Management | Feasible | Clear in-scope and out-of-scope boundaries help prevent scope creep during the semester. |
-
-### 6.5 Resource Feasibility — Feasible
-
-| Aspect | Assessment | Justification |
-|---|---|---|
-| Team & Skills | Feasible | The project can be divided among team members based on frontend, backend, database and data analysis tasks. |
-| Data Availability | Feasible | The Chicago Building Permits Dataset is available for project development and analysis. |
-| Software & Tools | Feasible | The required development frameworks, database and programming tools are accessible to the team. |
-
-### 6.6 Overall Feasibility Conclusion
-
-The project is feasible within the available time, resources and technology stack. The core workflow can be developed using the available tools and the Chicago Building Permits Dataset can support analysis and testing. However, the scope should be controlled and complex integrations such as live government systems, real payments and legally binding permit decisions should remain out of scope.
+Core features — complaint reporting, role-based access, database management, priority scoring, department assignment, SLA tracking and dashboards — are feasible with available technologies and team skills. Advanced features such as ML-based classification, large-scale route optimization and predictive analytics should be built incrementally or kept as future enhancements to avoid excessive complexity.
 
 ---
 
@@ -295,50 +348,43 @@ The project is feasible within the available time, resources and technology stac
 
 | Risk ID | Risk Description | Category | Likelihood | Impact | Mitigation Strategy |
 |---|---|---|---|---|---|
-| R1 | Large dataset may affect database performance | Technical | M | H | Use proper indexing and optimize database queries |
-| R2 | Complex multi-role workflow may be difficult to implement correctly | Technical | M | H | Develop and test each workflow stage separately |
-| R3 | Unauthorized users may access restricted functions | Security | M | H | Implement role-based access control and permission checks |
-| R4 | Project scope may expand beyond the available semester time | Scope | H | H | Keep core features prioritized and strictly follow the defined scope |
-| R5 | Difficulties integrating frontend, backend and Python/FastAPI services | Technical | M | M | Define clear APIs and integrate modules incrementally |
-| R6 | Missing or inconsistent data in the Chicago Building Permits Dataset may limit analysis | Data | M | M | Perform data cleaning and use only relevant available fields |
-| R7 | Development delays may affect testing and final demonstration | Timeline | M | H | Follow a phased development plan and complete core features first |
+| R1 | Difficulty integrating multiple modules (reporting, prioritization, maps, dashboards) | Technical | M | H | Develop and test modules independently before integration |
+| R2 | Inaccurate complaint classification or priority scoring | Technical | M | H | Start with rule-based logic; validate using historical complaint data; transparent scoring with supervisor override |
+| R3 | Inaccurate or unavailable location data | Technical | M | M | Let users confirm or manually adjust the reported location |
+| R4 | Limited or incomplete civic complaint data | Data | M | H | Use available public datasets; design for missing fields |
+| R5 | Scope grows too large (AI, routing, analytics, multiple roles) | Scope | H | H | Define MVP first; add advanced features incrementally |
+| R6 | Uneven technical skills across team members | Resource | M | M | Divide modules by skill; regular knowledge sharing |
+| R7 | Integration or development takes longer than planned | Timeline | M | H | Follow milestones, prioritize core features, keep a testing buffer |
+| R8 | Security or unauthorized access to role-specific functions | Security | M | H | Authentication, role-based access control and backend authorization |
+
+Additional risks noted: duplicate/spam complaints (duplicate detection + verification), wrong assignment (department mapping + reassignment), officer overload (workload-aware assignment), poor internet connectivity (R9) and performance/scalability issues (R10).
 
 ### 7.2 Risk Owner Summary
 
-| Risk ID | Risk Description | Risk Owner |
+| Risk ID | Risk | Risk Owner |
 |---|---|---|
-| R1 | Large dataset may affect database performance | Annapurna Boratti |
-| R2 | Complex multi-role workflow may be difficult to implement correctly | Amruta Kutri |
-| R3 | Unauthorized users may access restricted functions | Sanmathi Hegde |
-| R4 | Project scope may expand beyond the available semester time | Akhil Teja |
-| R5 | Difficulties integrating frontend, backend and Python/FastAPI services | Annapurna Boratti |
-| R6 | Missing or inconsistent data in the Chicago Building Permits Dataset may limit analysis | Sanmathi Hegde |
-| R7 | Development delays may affect testing and final demonstration | Amruta Kutri |
+| R1 | Technical integration of multiple modules | Backend / Integration Lead |
+| R2 | Incorrect classification or priority scoring | DSA / Algorithm Lead |
+| R3 | Inaccurate or unavailable location data | Frontend / Maps Lead |
+| R4 | Limited or incomplete complaint data | Data / DBMS Lead |
+| R5 | Scope becoming too large | Project Lead |
+| R6 | Uneven team skills / resource constraints | Project Lead |
+| R7 | Development taking longer than planned | Project Lead |
+| R8 | Security / unauthorized access | Backend / Security Lead |
+| R9 | Poor internet connectivity | Frontend / Backend Lead |
+| R10 | Performance and scalability issues | Backend / Database Lead |
 
 ---
 
-## 8. Success Criteria, Applications & Learning Outcomes
+## 8. Success Criteria
 
-### 8.1 Success Criteria
+- **Fast complaint reporting** — citizens submit issues quickly with complete details and location.
+- **Accurate prioritization** — high-severity, time-critical complaints rank ahead of lower-priority ones.
+- **Correct assignment** — complaints reach the appropriate department and field officer.
+- **Reduced response delay** — SLA monitoring flags delayed complaints and triggers escalation.
+- **Effective workload management** — tasks distributed by officer availability and workload.
+- **Reduced duplicate work** — repeated complaints about the same issue are detected and linked.
+- **Complete transparency** — citizens track status through the whole lifecycle.
+- **Successful resolution** — officers resolve issues and supervisors verify closure.
 
-- **Secure Access:** Users can log in securely and access only authorised features.
-- **Workflow Management:** Permits follow valid workflow stages with proper assignment, review, correction, and approval.
-- **Inspection Management:** Inspections can be scheduled and their results recorded.
-- **Security & Auditing:** Unauthorized actions are blocked and important activities are logged.
-- **Data Management:** Database operations are reliable and transaction-safe.
-- **Tracking & Reporting:** Users can track permit status, workflow history and view reports/dashboard analytics.
-
-### 8.2 Need & Application
-
-**Why is this needed?** Building permits involve multiple stages and stakeholders. A centralised workflow system can make the process easier to track and provide accountability.
-
-**Applications** — the system can be used as an academic model for: building permit management · construction approval · inspection management · municipal workflow automation · application tracking · officer assignment.
-
-### 8.3 Intended Understanding
-
-- **RBAC & Security:** Authentication, authorization, and role-based access.
-- **Workflow Management:** State transitions, approvals, corrections, and inspections.
-- **Database Management:** Relational database design, transactions and data handling.
-- **Backend & APIs:** REST APIs using Spring Boot and frontend integration.
-- **Testing & Auditing:** Access-control testing, validation, error handling, and audit logs.
-- **Scalability & Performance:** Handling multiple users and permit applications efficiently.
+---
